@@ -1,17 +1,14 @@
 #pragma once
-#include "LinearAlgebraStructs.h"
-class Matrix
+#include"LinearAlgebraStructs.h"
+class AMatrix
 {
 public:
-	Matrix(int rows, int columns);
+	AMatrix(int rows, int columns);
 	virtual matrix getCMatrix() const;
 	virtual const int getRows() const;
 	virtual const int getColumns() const;
-	virtual const int matrixMultiply() const;
 	virtual const long getElementsCount() const;
-	virtual ~Matrix();
 protected:
-	matrix _Cmatrix;
-
+	matrix _CMatrix;
 };
 

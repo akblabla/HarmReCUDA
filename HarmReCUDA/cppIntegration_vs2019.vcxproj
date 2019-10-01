@@ -14,13 +14,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AMatrix.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Matrix_cpu.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GenerateProjectionMatrix_d.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="AMatrix.h" />
+    <ClInclude Include="Matrix_cpu.h" />
     <ClInclude Include="Matrix_d.h" />
   </ItemGroup>
   <ItemGroup>

@@ -12,10 +12,13 @@
     <ClCompile Include="main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
+    <ClCompile Include="Matrix_d.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix_d.cpp">
+    <ClCompile Include="Matrix_cpu.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AMatrix.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +29,10 @@
     <ClInclude Include="Matrix_d.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
+    <ClInclude Include="Matrix_cpu.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AMatrix.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

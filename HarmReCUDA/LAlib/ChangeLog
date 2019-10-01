@@ -1,0 +1,93 @@
+28.06.2016 minor changes in Makefile.am to work smoothly with recent autotools
+28.06.2016 fixed determinant sign issue due to dgesv ipiv counting from 1 in nonclass.cc
+11.11.2015 autotool files changed to support separate only-static ATLAS libraries
+05.03.2015 operator>> for fourindex_ext
+27.10.2014 added interface for Lapack SVD of complex matrices
+27.10.2014 diagonalset() for rectangular matrices
+04.11.2013 added conjugateme() for corder=1 in complex diagonalize() and gdiagonalize() to get correct eigenvector convention for C-storage
+30.10.2013 macros for consistent lowercase and uppercase of character parameters for case sensitive BLAS and LAPACK; case-insesitivness of these in vec.cc and mat.cc (cublas still not treated)
+29.10.2013 included la_traits.h in nonclass.c to get correct extern "C" of cblas
+14.10.2013 added operator% to bivector
+01.06.2012 more efficient clear() by detachonly parameter to copyonwrite()
+14.03.2012 fixed overflow in product of dimensions of NRMat and NRSMat
+13.03.2012 symmetry of integrals with different spins added to fourindex.h
+23.02.2012 included unistd.h 
+23.02.2012 fixed max read/write size in multiget and multiput to 1GB
+24.01.2012 Improved DIIS (L.V.)
+19.01.2012 Fixed location for gpu in nonclass.cc
+02.06.2011 In oplus() =0 replaced by clear() to work on non-square matrices (J.P.)
+01.02.2011 Added trace2 for complex matrices by L. Veis
+18.01.2011 Minor bugfixes and compatibility with Intel C++ compiler by Roman Curik
+28.12.2010 Generalized diagonalization and functions of general complex matrices 
+21.12.2010 Changed to size_t in matrix put,get to prevent overflow
+08.12.2010 Deallocate method added to LA_traits, used for memory saving in matrix exp
+24.11.2010 Added checking for integer overflow in exptimes
+23.10.2010 Fixed dependency on atlas for static libraries in configure.ac 
+27.09.2010 Seed of CSRMat class added.
+22.09.2010 Allowed formal operator[] on gpu matrices
+22.09.2010 Added submatrix() to SparseSMat
+22.09.2010 Zgerc and zgeru implemented in non-cblas version
+21.09.2010 Fixed a bug in laerror macro causing sometimes compilation problems
+08.09.2010 RELEASE 0.6
+08.09.2010 Doxygen documentation for  NRVec, NRMat, NRSMat classes contributed by M. Sulc
+08.09.2010 Extended CUBLAS support for NRVec, NRMat, NRSMat classes contributed by M. Sulc
+08.09.2010 Minor bugfixes and improvements contributed by M. Sulc
+25.06.2010 Added proof-of-concept CUBLAS support for NRVec, NRMat, NRSMat 
+24.06.2010 Fixed a memory leak existing when MATPTR  was defined
+18.06.2010 added autoconf support for BLAS+LAPACK compiled with 64-bit integers and for CUBLAS
+11.06.2010 interface to fortran BLAS+LAPACK compiled with 64-bit integers contributed by L. Veis
+25.02.2010 linear_solve_x and multiply_by_inverse contributed by M. Sulc
+17.01.2010 miscellaneous extensions contributed by M. Sulc
+17.01.2010 bugfix in NRMat::operator *= +=  -= for non-square matrix
+15.01.2010 added check for cblas.h and clapack.h 
+13.01.2010 fixed ::fscanf to be compilable by gcc 4.4
+10.01.2010 outer product with sparse result otimes_sparse added
+09.01.2010 typedef ROWTYPE for NRVec and SparseSMat for assignable elements/rows via operator[]
+09.01.2010 SparseSMat adapted to rectangular matrices (except gemm)
+07.01.2010 Fixed a bug in SparseSMat::axpy
+07.01.2010 Pivoted Cholesky decomposition for positive semidefinite SparseSMat-rices
+05.01.2010 Cholesky decomposition lapack interface  implemented
+04.01.2010 NRMat * SparseSMat
+28.12.2009 added put and get for sparsesmat, fixed put/get bug in traits (contrib. L. Veis)
+15.12.2009 added possibility for a user-defined initial guess in davidson
+20.11.2009 removed #include config.h from LA_traits.h
+19.11.2009 fixed a bug in SparseMat::norm() and SparseSMat::norm()
+19.11.2009 added SparseSMat::operator* for NRVec and SparseSMat::diagonalof
+13.11.2009 RELEASE 0.5
+13.11.2009 libtool employed to create also shared library version
+12.11.2009 library enclosed in the namespace LA
+12.11.2009 #defines for numerical parameters changed to const doubles
+12.11.2009 added SparseSMat class for efficient exponentiation of sparse complex symmetric matrices
+12.11.2009 removed unnecessary casts in complex vec,mat,smat routines
+12.11.2009 fixed bug in complex NRSMat operator +=,-=
+11.11.2009 changed default SPARSEEPSILON threshold value
+10.11.2009 removing 'using namespace std' from the main include, leaving this to the user's discretion
+10.11.2009 NRVec::otimes introduced
+04.11.2009 improved efficiency of complex matrix exp
+04.11.2009 fixed return type for complex sparsemat::norm
+19.10.2009 added modified GS orthomormalization with optional metric
+15.10.2009 added support for long long
+07.10.2009 RELEASE 0.4
+06.10.2009 autoconf/automake for user convenience
+13.09.2009 RELEASE 0.3
+04.09.2009 fixed a bug with missing copyonwrite() inside clear()
+02.09.2009 fixed a numerical problem in exptimes() for large values of scale
+04.06.2009 fixed a regression due to use of normtype
+28.05.2009 removed the export keyword unsupported in g++
+28.05.2009 fixed normtype in la_traits
+28.05.2009 randomize() added for complex
+28.05.2009 Added interface for complex hermitean  matrix diagonalization
+06.02.2009 constructors of complex vec/mat/smat from real ones
+20.01.2009 optional _LA_count_check
+20.01.2009 NRMat(const NRVec...) constructor with optional offset parameter
+18.12.2008 cout.flush() for verbose iterative methods
+17.12.2008 improvements in laerror for exception handling
+26.11.2008 RELEASE 0.2
+xx.11.2008 checked compilation with gcc-4.3.2
+xx.08.2008 fixed wrong permutation symmetry in previously unused (and untested) fourindex class
+16.04.2008 replaced the dasum() wrongly used for trace
+14.03.2008 support for (formal) matrix resize(n,0)
+11.03.2008 added cblas_idamax replacement for non-cblas
+05.03.2008 fixed transposed bug in inverse() with non-cblas
+26.02.2008 INITIAL RELEASE 0.1
+

@@ -1,15 +1,16 @@
 #pragma once
 #include "LinearAlgebraStructs.h"
-#include "Matrix.h"
-class Matrix_d : Matrix
+#include "Matrix_cpu.h"
+#include "AMatrix.h"
+
+class Matrix_d : AMatrix
 {
 public:
 	Matrix_d(int rows, int columns);
-	virtual matrix getCMatrix() const;
 	virtual void allocateMatrixOnDevice();
 	virtual void deallocateMatrixOnDevice();
-	virtual void uploadMatrixToDevice(Matrix src) const;
-	virtual void downloadMatrixFromDevice(Matrix dst) const;
+	virtual void uploadMatrixToDevice(Matrix_cpu src) const;
+	virtual void downloadMatrixFromDevice(Matrix_cpu dst) const;
 private:
 	bool _allocatedToDevice = false;
 

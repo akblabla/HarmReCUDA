@@ -25,66 +25,12 @@
 //#include <helper_cuda.h>
 #include "LinearAlgebraStructs.h"
 
-////////////////////////////////////////////////////////////////////////////////
-// declaration, forward
-extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics);
-
-#define ROWS 10000
-#define COLUMNS 30000
-
+#include "HarmReCUDA.h"
 
 int main() {
-	printf("starting");
-
-	cudaError_t cudaStat;
-	double* matrixElements = (double*)malloc(ROWS * COLUMNS * sizeof(double));
-	double* d_matrixElements;
-	matrix m = { matrixElements,ROWS,COLUMNS };
-	cudaEvent_t start, stop; 
-	float time;
-
-
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
-	cudaStat = cudaMalloc((void**)& d_matrixElements, ROWS * COLUMNS * sizeof(*matrixElements));
-	if (cudaStat != cudaSuccess) {
-		printf("device memory allocation failed");
-		return EXIT_FAILURE;
-	}
-	matrix d_m = { d_matrixElements,ROWS,COLUMNS };
-	cudaEventRecord(start, 0);
-	generateProjectionMatrix_cuda(d_m, 49, 51, 0, 1.0 / 31250.0, 50);
-	cudaEventRecord(stop, 0);
-	cudaEventSynchronize(stop);
-	cudaStat = cudaMemcpy(m.elements, d_matrixElements, ROWS * COLUMNS * sizeof(*matrixElements), cudaMemcpyDeviceToHost);
-	if (cudaStat != cudaSuccess) {
-		printf("result download failed");
-		return EXIT_FAILURE;
-	}
-	cudaFree(d_matrixElements);
-	printf("done\n");
-	cudaEventElapsedTime(&time, start, stop);
-	printf("Time elapsed %f\n", time);
-	for (long j = 0; j < 8; j++) {
-		for (long i = 0; i < 8; i++) {
-			printf("%f\t", m.elements[j * COLUMNS + i]);
-		}
-		printf("\n");
-	}
-
-	FILE* fptr;
-	fptr = fopen("projectionMatrix.txt", "w");
-	if (fptr == NULL)
-	{
-		printf("Error!");
-		exit(1);
-	}
-	for (long j = 0; j < 8; j++) {
-		for (long i = 0; i < COLUMNS; i++) {
-			fprintf(fptr, "%f\t", m.elements[j * COLUMNS + i]);
-		}
-		fprintf(fptr, "\n");
-	}
-	fclose(fptr);
+	NRMat<double> data(5,10, 20);
+	NRVec<double> harmonics(5, 20);
+	NRVec<double> frequencies(5, 20);
+	data = harmReCUDA(data, harmonics, frequencies);
 	return 1;
 }

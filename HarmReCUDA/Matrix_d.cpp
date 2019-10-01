@@ -2,16 +2,8 @@
 #include <cuda_runtime.h>
 #include <exception>
 
-Matrix_d::Matrix_d(int rows, int columns) : Matrix(rows,columns)
+Matrix_d::Matrix_d(int rows, int columns) : AMatrix(rows, columns)
 {
-	cudaError_t cudaStat;
-	_Cmatrix.columns = columns;
-	_Cmatrix.rows = rows;
-}
-
-matrix Matrix_d::getCMatrix() const
-{
-	return _Cmatrix;
 }
 
 void Matrix_d::allocateMatrixOnDevice()
@@ -20,7 +12,7 @@ void Matrix_d::allocateMatrixOnDevice()
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaMalloc((void**)& _Cmatrix.elements, getElementsCount() * sizeof(*_Cmatrix.elements));
+	auto const cudaStat = cudaMalloc((void**)& _CMatrix.elements, getElementsCount() * sizeof(*_CMatrix.elements));
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
@@ -34,7 +26,7 @@ void Matrix_d::deallocateMatrixOnDevice()
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaFree((void**)& _Cmatrix.elements);
+	auto const cudaStat = cudaFree((void**)& _CMatrix.elements);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
@@ -42,26 +34,26 @@ void Matrix_d::deallocateMatrixOnDevice()
 	_allocatedToDevice = false;
 }
 
-void Matrix_d::uploadMatrixToDevice(Matrix src) const
+void Matrix_d::uploadMatrixToDevice(Matrix_cpu src) const
 {
 	if (getRows() != src.getRows() || getColumns() != src.getColumns()) {
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaMemcpy(_Cmatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyDeviceToHost);
+	auto const cudaStat = cudaMemcpy(_CMatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyDeviceToHost);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
 	}
 }
 
-void Matrix_d::downloadMatrixFromDevice(Matrix dest) const
+void Matrix_d::downloadMatrixFromDevice(Matrix_cpu dest) const
 {
 	if (getRows() != dest.getRows() || getColumns() != dest.getColumns()) {
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaMemcpy(dest.getCMatrix().elements, _Cmatrix.elements, getElementsCount() * sizeof(*_Cmatrix.elements), cudaMemcpyDeviceToHost);
+	auto const cudaStat = cudaMemcpy(dest.getCMatrix().elements, _CMatrix.elements, getElementsCount() * sizeof(*_CMatrix.elements), cudaMemcpyDeviceToHost);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
