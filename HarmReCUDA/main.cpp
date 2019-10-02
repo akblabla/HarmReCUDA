@@ -24,6 +24,7 @@
 #include <vector_types.h>
 //#include <helper_cuda.h>
 #include "LinearAlgebraStructs.h"
+#include "Matrix_d.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // declaration, forward
@@ -38,22 +39,13 @@ int main() {
 
 	cudaError_t cudaStat;
 	double* matrixElements = (double*)malloc(ROWS * COLUMNS * sizeof(double));
-	double* d_matrixElements;
 	matrix m = { matrixElements,ROWS,COLUMNS };
 	cudaEvent_t start, stop; 
 	float time;
-
-
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
-	cudaStat = cudaMalloc((void**)& d_matrixElements, ROWS * COLUMNS * sizeof(*matrixElements));
-	if (cudaStat != cudaSuccess) {
-		printf("device memory allocation failed");
-		return EXIT_FAILURE;
-	}
-	matrix d_m = { d_matrixElements,ROWS,COLUMNS };
+	Matrix_d d_m(ROWS, COLUMNS);
+	d_m.allocateMatrixOnDevice();
 	cudaEventRecord(start, 0);
-	generateProjectionMatrix_cuda(d_m, 49, 51, 0, 1.0 / 31250.0, 50);
+	generateProjectionMatrix_cuda(d_m.getCMatrix(), 49, 51, 0, 1.0 / 31250.0, 50);
 	cudaEventRecord(stop, 0);
 	cudaEventSynchronize(stop);
 	cudaStat = cudaMemcpy(m.elements, d_matrixElements, ROWS * COLUMNS * sizeof(*matrixElements), cudaMemcpyDeviceToHost);

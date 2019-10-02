@@ -13,6 +13,20 @@ matrix Matrix_d::getCMatrix() const
 {
 	return _Cmatrix;
 }
+const int Matrix_d::getRows() const
+{
+	return _Cmatrix.rows;
+}
+
+const int Matrix_d::getColumns() const
+{
+	return _Cmatrix.columns;
+}
+
+const long Matrix_d::getElementsCount() const
+{
+	return (long)getRows() * getRows();
+}
 
 void Matrix_d::allocateMatrixOnDevice()
 {
@@ -42,7 +56,7 @@ void Matrix_d::deallocateMatrixOnDevice()
 	_allocatedToDevice = false;
 }
 
-void Matrix_d::uploadMatrixToDevice(Matrix src) const
+void Matrix_d::uploadMatrixToDevice(Matrix& src) const
 {
 	if (getRows() != src.getRows() || getColumns() != src.getColumns()) {
 		throw std::exception();
@@ -55,7 +69,7 @@ void Matrix_d::uploadMatrixToDevice(Matrix src) const
 	}
 }
 
-void Matrix_d::downloadMatrixFromDevice(Matrix dest) const
+void Matrix_d::downloadMatrixFromDevice(Matrix& dest) const
 {
 	if (getRows() != dest.getRows() || getColumns() != dest.getColumns()) {
 		throw std::exception();
