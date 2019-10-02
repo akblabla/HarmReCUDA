@@ -31,6 +31,6 @@ int main() {
 	NRMat<double> data(5,10, 20);
 	NRVec<double> harmonics(5, 20);
 	NRVec<double> frequencies(5, 20);
-	data = harmReCUDA(data, harmonics, frequencies);
+	//data = harmReCUDA(data, harmonics, frequencies);
 	return 1;
 }

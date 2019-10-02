@@ -18,6 +18,8 @@
 #ifndef _LA_H_
 #define _LA_H_
 
+#include <cuda_runtime.h>
+#include <vector_types.h>
 //this should be the single include file for the end user
 //
 #ifdef USE_TRACEBACK

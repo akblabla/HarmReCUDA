@@ -26,7 +26,8 @@
 #ifndef _LA_TRAITS_INCL
 #define _LA_TRAITS_INCL
 
-
+#define NONCBLAS
+#define NONCLAPACK
 
 
 #include <stdio.h>
@@ -35,7 +36,7 @@
 #include <fstream>
 #include <limits>
 #include <complex>
-#include <unistd.h>
+//#include <unistd.h>
 
 
 //using namespace std;

@@ -21,10 +21,10 @@
 #include <iostream>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/vfs.h>
-#include <sys/mman.h>
+//#include <sys/vfs.h>
+//#include <sys/mman.h>
 #include <sys/stat.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <stdint.h>
 #include <sys/stat.h>
 #include "laerror.h"
