@@ -4,15 +4,8 @@
 
 Matrix_d::Matrix_d(int rows, int columns) : Matrix(rows,columns)
 {
-	cudaError_t cudaStat;
-	_Cmatrix.columns = columns;
-	_Cmatrix.rows = rows;
 }
 
-matrix Matrix_d::getCMatrix() const
-{
-	return _Cmatrix;
-}
 const int Matrix_d::getRows() const
 {
 	return _Cmatrix.rows;
@@ -28,7 +21,7 @@ const long Matrix_d::getElementsCount() const
 	return (long)getRows() * getRows();
 }
 
-void Matrix_d::allocateMatrixOnDevice()
+void Matrix_d::allocateMatrix()
 {
 	if (_allocatedToDevice == true) {
 		throw std::exception();
@@ -42,7 +35,7 @@ void Matrix_d::allocateMatrixOnDevice()
 	_allocatedToDevice = true;
 }
 
-void Matrix_d::deallocateMatrixOnDevice()
+void Matrix_d::deallocateMatrix()
 {
 	if (_allocatedToDevice == false) {
 		throw std::exception();

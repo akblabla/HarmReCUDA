@@ -43,7 +43,7 @@ int main() {
 	cudaEvent_t start, stop; 
 	float time;
 	Matrix_d d_m(ROWS, COLUMNS);
-	d_m.allocateMatrixOnDevice();
+	d_m.allocateMatrix();
 	cudaEventRecord(start, 0);
 	generateProjectionMatrix_cuda(d_m.getCMatrix(), 49, 51, 0, 1.0 / 31250.0, 50);
 	cudaEventRecord(stop, 0);
@@ -64,19 +64,5 @@ int main() {
 		printf("\n");
 	}
 
-	FILE* fptr;
-	fptr = fopen("projectionMatrix.txt", "w");
-	if (fptr == NULL)
-	{
-		printf("Error!");
-		exit(1);
-	}
-	for (long j = 0; j < 8; j++) {
-		for (long i = 0; i < COLUMNS; i++) {
-			fprintf(fptr, "%f\t", m.elements[j * COLUMNS + i]);
-		}
-		fprintf(fptr, "\n");
-	}
-	fclose(fptr);
 	return 1;
 }

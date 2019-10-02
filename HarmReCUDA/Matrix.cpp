@@ -23,6 +23,16 @@ const long Matrix::getElementsCount() const
 	return (long)getRows() * getRows();
 }
 
+const void Matrix::allocateMatrix() const
+{
+	
+}
+
+const void Matrix::deallocateMatrix() const
+{
+	
+}
+
 Matrix::~Matrix()
 {
 }
