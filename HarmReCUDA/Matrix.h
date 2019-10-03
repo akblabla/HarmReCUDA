@@ -13,5 +13,7 @@ public:
 	virtual ~Matrix();
 protected:
 	matrix _Cmatrix;
+private:
+	bool _allocated = false;
 };
 

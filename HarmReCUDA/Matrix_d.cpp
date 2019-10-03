@@ -6,47 +6,32 @@ Matrix_d::Matrix_d(int rows, int columns) : Matrix(rows,columns)
 {
 }
 
-const int Matrix_d::getRows() const
-{
-	return _Cmatrix.rows;
-}
-
-const int Matrix_d::getColumns() const
-{
-	return _Cmatrix.columns;
-}
-
-const long Matrix_d::getElementsCount() const
-{
-	return (long)getRows() * getRows();
-}
-
 void Matrix_d::allocateMatrix()
 {
-	if (_allocatedToDevice == true) {
+	if (_allocated == true) {
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaMalloc((void**)& _Cmatrix.elements, getElementsCount() * sizeof(*_Cmatrix.elements));
+	auto const cudaStat = cudaMalloc((void**)&_Cmatrix.elements, getElementsCount() * sizeof(*_Cmatrix.elements));
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
 	}
-	_allocatedToDevice = true;
+	_allocated = true;
 }
 
 void Matrix_d::deallocateMatrix()
 {
-	if (_allocatedToDevice == false) {
+	if (_allocated == false) {
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaFree((void**)& _Cmatrix.elements);
+	auto const cudaStat = cudaFree((void*) _Cmatrix.elements);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;
 	}
-	_allocatedToDevice = false;
+	_allocated = false;
 }
 
 void Matrix_d::uploadMatrixToDevice(Matrix& src) const
@@ -55,7 +40,7 @@ void Matrix_d::uploadMatrixToDevice(Matrix& src) const
 		throw std::exception();
 		return;
 	}
-	auto const cudaStat = cudaMemcpy(_Cmatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyDeviceToHost);
+	auto const cudaStat = cudaMemcpy(_Cmatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyHostToDevice);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;

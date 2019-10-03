@@ -14,7 +14,7 @@ void generateProjectionMatrix_kernel(matrix a_d, const double minFreq, const dou
 	double t = column_index*deltaTime+startTime;
 	double freq = (minFreq+(row_index/harmonics)*(maxFreq-minFreq)/a_d.rows)*((1+row_index/2)%harmonics);
 	double phase = t*freq;
-	if (row_index<a_d.rows) //make sure not to write outside of matrix, incase the number of elements did not have a base of 256
+	if (i<a_d.rows* a_d.columns) //make sure not to write outside of matrix, incase the number of elements did not have a base of 256
 	sincos(
 		phase,
 		&(a_d.elements[a_d.columns*(row_index+1)+column_index]),
@@ -26,5 +26,5 @@ void generateProjectionMatrix_kernel(matrix a_d, const double minFreq, const dou
 **/
 extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics){
 	int N = a_d.rows*a_d.columns/2; //each thread handles two elements of the matrix
-	generateProjectionMatrix_kernel<<<(N+255)/256, 256>>>(a_d, minFreq, maxFreq, startTime, deltaTime, harmonics);
+	generateProjectionMatrix_kernel<<<(N+ 1023)/ 1024, 1024 >>>(a_d, minFreq, maxFreq, startTime, deltaTime, harmonics);
 }
