@@ -30,8 +30,8 @@
 // declaration, forward
 extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics);
 
-#define ROWS 8192
-#define COLUMNS 32768
+#define ROWS 100
+#define COLUMNS 300
 
 
 int main() {
@@ -43,18 +43,11 @@ int main() {
 	float time;
 	Matrix_d d_m(ROWS, COLUMNS);
 	d_m.allocateMatrix();
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
-	cudaEventRecord(start, 0);
+
 	generateProjectionMatrix_cuda(d_m.getCMatrix(), 49, 51, 0, 1.0 / 31250.0, 50);
-	cudaEventRecord(stop, 0);
-	cudaEventSynchronize(stop);
 	d_m.downloadMatrixFromDevice(m);
 	//cudaFree(d_matrixElements);
 	printf("done\n");
-	cudaEventElapsedTime(&time, start, stop);
-	printf("Time elapsed %f\n", time);
-
 	d_m.deallocateMatrix();
 
 	for (long j = 0; j < 8; j++) {
