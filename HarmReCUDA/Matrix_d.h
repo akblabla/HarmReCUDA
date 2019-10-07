@@ -5,12 +5,11 @@ class Matrix_d : public Matrix
 {
 public:
 	Matrix_d(int rows, int columns);
-	void allocateMatrix() override;
-	void deallocateMatrix() override;
-	virtual void uploadMatrixToDevice(Matrix& src) const;
-	virtual void downloadMatrixFromDevice(Matrix& dst) const;
-private:
-	bool _allocated = false;
+	void allocate() override;
+	void deallocate() override;
+	virtual void uploadToDevice(Matrix& src);
+	virtual void downloadFromDevice(Matrix& dst);
+	virtual void GeneralMatrixToMatrixMultiply(Matrix_d& A, Matrix_d& B, double alpha, double beta);
 
 };
 

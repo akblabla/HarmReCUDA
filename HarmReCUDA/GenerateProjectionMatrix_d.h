@@ -1,3 +1,5 @@
 #pragma once
 #include "LinearAlgebraStructs.h"
-extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics);
+#include "Matrix_d.h"
+#include "Vector_d.h"
+void generateProjectionMatrix_d(Matrix_d& destination, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const Vector_d& harmonics);

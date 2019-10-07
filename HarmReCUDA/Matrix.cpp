@@ -1,5 +1,7 @@
 #include "Matrix.h"
 #include <memory>
+#include <iostream>
+#include <algorithm>
 Matrix::Matrix(int rows, int columns)
 {
 	_Cmatrix.columns = columns;
@@ -9,39 +11,57 @@ matrix Matrix::getCMatrix() const
 {
 	return _Cmatrix;
 }
-const int Matrix::getRows() const
+int Matrix::getRows() const
 {
 	return _Cmatrix.rows;
 }
 
-const int Matrix::getColumns() const
+int Matrix::getColumns() const
 {
 	return _Cmatrix.columns;
 }
 
-const long Matrix::getElementsCount() const
+long Matrix::getElementsCount() const
 {
-	return (long)getRows() * getRows();
+	return getRows() * getColumns();
 }
 
-void Matrix::allocateMatrix()
+void Matrix::allocate()
 {
 	if (_allocated == true) {
-		throw std::exception();
 		return;
 	}
 	_Cmatrix.elements = new double[getElementsCount()];
 	_allocated = true;
 }
 
-void Matrix::deallocateMatrix()
+void Matrix::deallocate()
 {
 	if (_allocated == false) {
-		throw std::exception();
 		return;
 	}
 	delete[] _Cmatrix.elements;
 	_allocated = false;
+}
+
+double Matrix::getElement(int row, int column)
+{
+	return _Cmatrix.elements[column *getRows()+ row];
+}
+
+void Matrix::setElement(double value, int row, int column)
+{
+	_Cmatrix.elements[column * getRows() + row] = value;
+}
+
+void Matrix::print(int rows, int columns)
+{
+	for (int j = 0; j < std::min(getRows(), rows); j++) {
+		for (int i = 0; i < std::min(getColumns(), columns); i++) {
+			printf("%1.3f\t", getElement(j, i));
+		}
+		printf("\n");
+	}
 }
 
 Matrix::~Matrix()

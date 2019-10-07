@@ -6,25 +6,30 @@
 #include "GenerateProjectionMatrix_d.h"
 
 __global__
-void generateProjectionMatrix_kernel(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics)
+void generateProjectionMatrix_kernel(matrix dest_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const matrix harmonics_d)
 {
 	int i = blockIdx.x*blockDim.x + threadIdx.x;
-	int column_index = i%a_d.columns;
-	int row_index = 2*(i/a_d.columns); //skip every second row
-	double t = column_index*deltaTime+startTime;
-	double freq = (minFreq+(row_index/harmonics)*(maxFreq-minFreq)/a_d.rows)*((1+row_index/2)%harmonics);
+	int columnIndex = i/dest_d.rows;
+	int rowIndex = ((2 * i) % dest_d.rows); //skip every second row
+	double t = columnIndex*deltaTime+startTime;
+	int fundamentalFrequencyIndex = rowIndex / (harmonics_d.rows);
+	int harmonicIndex = (rowIndex) % (harmonics_d.rows);
+	double fundamentalFrequency = (minFreq + (fundamentalFrequencyIndex) * (maxFreq - minFreq) / dest_d.columns);
+	double freq = fundamentalFrequency * harmonics_d.elements[harmonicIndex];
+	
+	
 	double phase = t*freq;
-	if (i<a_d.rows* a_d.columns) //make sure not to write outside of matrix, incase the number of elements did not have a base of 256
+	if (columnIndex < dest_d.columns) //make sure not to write outside of matrix, incase the number of elements did not have a base of 1024
 	sincos(
 		phase,
-		&(a_d.elements[a_d.columns*(row_index+1)+column_index]),
-		&(a_d.elements[a_d.columns*row_index+column_index])
+		&(dest_d.elements[dest_d.rows * columnIndex + rowIndex+1]),
+		&(dest_d.elements[dest_d.rows * columnIndex + rowIndex])
 	);
 }
 /**
 *creates a projection matrix on the gpu to the given matrix on the device.
 **/
-extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics){
-	int N = a_d.rows*a_d.columns/2; //each thread handles two elements of the matrix
-	generateProjectionMatrix_kernel<<<(N+ 1023)/ 1024, 1024 >>>(a_d, minFreq, maxFreq, startTime, deltaTime, harmonics);
+extern "C" void generateProjectionMatrix_cuda(matrix dest_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const matrix harmonics_d){
+	int N = dest_d.rows* dest_d.columns/2; //each thread handles two elements of the matrix
+	generateProjectionMatrix_kernel<<<(N+ 1023)/ 1024, 1024 >>>(dest_d, minFreq, maxFreq, startTime, deltaTime, harmonics_d);
 }

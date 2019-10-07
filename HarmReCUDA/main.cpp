@@ -16,39 +16,32 @@
  */
 
 // includes, system
-#include <iostream>
-#include <stdlib.h>
-
-// Required to include CUDA vector types
-#include <cuda_runtime.h>
-#include <vector_types.h>
-//#include <helper_cuda.h>
-#include "LinearAlgebraStructs.h"
+#include "HarmReCUDA.h"
 #include "Matrix_d.h"
-
-////////////////////////////////////////////////////////////////////////////////
-// declaration, forward
-extern "C" void generateProjectionMatrix_cuda(matrix a_d, const double minFreq, const double maxFreq, const double startTime, const double deltaTime, const int harmonics);
-
-#define ROWS 100
-#define COLUMNS 300
+#include <math.h>
 
 
 int main() {
-	printf("starting");
+	/*printf("starting\n");
 
 	Matrix m(ROWS,COLUMNS);
 	m.allocateMatrix();
-	cudaEvent_t start, stop; 
+	for (int i = 0; i < ROWS * COLUMNS; i++) {
+		m.getCMatrix().elements[i] = 0;
+	}
 	float time;
 	Matrix_d d_m(ROWS, COLUMNS);
+	Vector_d harmonics_d(50);
 	d_m.allocateMatrix();
+	harmonics_d.allocateMatrix();
+	//d_m.uploadMatrixToDevice(m);
+	generateProjectionMatrix_d(d_m, 49, 51, 0, 1.0 / 31250.0, harmonics_d);
 
-	generateProjectionMatrix_cuda(d_m.getCMatrix(), 49, 51, 0, 1.0 / 31250.0, 50);
 	d_m.downloadMatrixFromDevice(m);
 	//cudaFree(d_matrixElements);
 	printf("done\n");
 	d_m.deallocateMatrix();
+	harmonics_d.deallocateMatrix();
 
 	for (long j = 0; j < 8; j++) {
 		for (long i = 0; i < 8; i++) {
@@ -57,6 +50,15 @@ int main() {
 		printf("\n");
 	}
 	m.deallocateMatrix();
-
+	*/
+	Matrix d(300, 1);
+	d.allocate();
+	for (int i = 0; i < 300; ++i) {
+		for (int j = 0; j < 1; ++j) {
+			d.setElement(5,i, j);
+		}
+	}
+	harmReCUDA(d);
+	d.deallocate();
 	return 1;
 }

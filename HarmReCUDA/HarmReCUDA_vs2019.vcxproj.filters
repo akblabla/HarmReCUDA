@@ -18,6 +18,18 @@
     <ClCompile Include="Matrix_d.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HarmReCUDA.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateProjectionMatrix_d.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector_d.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GenerateProjectionMatrix_d.h">
@@ -27,6 +39,15 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="HarmReCUDA.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector_d.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
