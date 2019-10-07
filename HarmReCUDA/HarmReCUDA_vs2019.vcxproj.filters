@@ -30,6 +30,9 @@
     <ClCompile Include="Vector_d.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="findHighestEnergyFundamentals_d.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GenerateProjectionMatrix_d.h">
@@ -50,6 +53,9 @@
     <ClInclude Include="Vector_d.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="findHighestEnergyFundamentals_d.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LinearAlgebraStructs.h">
@@ -57,10 +63,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="SquareElements_d.cu">
+    <CudaCompile Include="GenerateProjectionMatrix_cuda.cu">
       <Filter>Source</Filter>
     </CudaCompile>
-    <CudaCompile Include="GenerateProjectionMatrix_cuda.cu">
+    <CudaCompile Include="SquareElements_cuda.cu">
       <Filter>Source</Filter>
     </CudaCompile>
   </ItemGroup>

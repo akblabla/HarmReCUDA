@@ -3,8 +3,57 @@
 #include <exception>
 #include <iostream>
 #include "cublas_v2.h"
-Matrix_d::Matrix_d(int rows, int columns) : Matrix(rows,columns)
+Matrix_d::Matrix_d(int rows, int columns, matrixInitialisation::matrixInitialisation initialisation) : Matrix(rows,columns)
 {
+	switch (initialisation)
+	{
+	case matrixInitialisation::no_init:
+		break;
+	case matrixInitialisation::allocate:
+		allocate();
+		break;
+	case matrixInitialisation::assign:
+		allocate();
+		break;
+	default:
+		break;
+	}
+}
+
+Matrix_d::Matrix_d(const Matrix& src, matrixInitialisation::matrixInitialisation initialisation) : Matrix(src.getRows(), src.getColumns())
+{
+	switch (initialisation)
+	{
+	case matrixInitialisation::no_init:
+		break;
+	case matrixInitialisation::allocate:
+		allocate();
+		break;
+	case matrixInitialisation::assign:
+		allocate();
+		uploadToDevice(src);
+		break;
+	default:
+		break;
+	}
+}
+
+Matrix_d::Matrix_d(const Matrix_d& src, matrixInitialisation::matrixInitialisation initialisation) : Matrix(src.getRows(), src.getColumns())
+{
+	switch (initialisation)
+	{
+	case matrixInitialisation::no_init:
+		break;
+	case matrixInitialisation::allocate:
+		allocate();
+		break;
+	case matrixInitialisation::assign:
+		allocate();
+		copyFromDevice(src);
+		break;
+	default:
+		break;
+	}
 }
 
 void Matrix_d::allocate()
@@ -33,13 +82,26 @@ void Matrix_d::deallocate()
 	_allocated = false;
 }
 
-void Matrix_d::uploadToDevice(Matrix& src)
+void Matrix_d::uploadToDevice(const Matrix& src)
 {
 	if (getRows() != src.getRows() || getColumns() != src.getColumns()) {
 		throw std::exception();
 		return;
 	}
 	auto const cudaStat = cudaMemcpy(_Cmatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyHostToDevice);
+	if (cudaStat != cudaSuccess) {
+		throw std::exception();
+		return;
+	}
+}
+
+void Matrix_d::copyFromDevice(const Matrix_d& src)
+{
+	if (getRows() != src.getRows() || getColumns() != src.getColumns()) {
+		throw std::exception();
+		return;
+	}
+	auto const cudaStat = cudaMemcpy(_Cmatrix.elements, src.getCMatrix().elements, src.getElementsCount() * sizeof(*src.getCMatrix().elements), cudaMemcpyDeviceToDevice);
 	if (cudaStat != cudaSuccess) {
 		throw std::exception();
 		return;

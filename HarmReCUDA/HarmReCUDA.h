@@ -1,3 +1,4 @@
 #pragma once
 #include "Matrix.h"
-void harmReCUDA(Matrix &data);
+#include "Vector.h"
+void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximumFundamentalFrequency, int fundamentalFrequencyResolution, double sampleRate, Vector& Harmonics);

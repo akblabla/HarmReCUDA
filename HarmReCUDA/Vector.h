@@ -3,6 +3,6 @@
 class Vector : public Matrix
 {
 public:
-	Vector(int length);
+	Vector(int length, matrixInitialisation::matrixInitialisation initialisation = matrixInitialisation::no_init);
 	virtual ~Vector();
 };

@@ -1,6 +1,6 @@
 #include "Vector.h"
 
-Vector::Vector(int length) : Matrix(length, 1)
+Vector::Vector(int length, matrixInitialisation::matrixInitialisation initialisation) : Matrix(length, 1, initialisation)
 {
 }
 

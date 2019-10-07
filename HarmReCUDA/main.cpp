@@ -17,7 +17,8 @@
 
 // includes, system
 #include "HarmReCUDA.h"
-#include "Matrix_d.h"
+#include "Matrix.h"
+#include "Vector.h"
 #include <math.h>
 
 
@@ -51,14 +52,22 @@ int main() {
 	}
 	m.deallocateMatrix();
 	*/
-	Matrix d(300, 1);
+	double fs = 30000;
+	Matrix d(30000, 100);
 	d.allocate();
-	for (int i = 0; i < 300; ++i) {
-		for (int j = 0; j < 1; ++j) {
-			d.setElement(5,i, j);
+	for (int i = 0; i < d.getRows(); ++i) {
+		for (int j = 0; j < d.getColumns(); ++j) {
+			d.setElement(cos(2*3.14*i/ fs *(j+1)),i, j);
 		}
 	}
-	harmReCUDA(d);
+
+	Vector harmonics(2);
+	harmonics.allocate();
+	for (int i = 0; i < 2; ++i) {
+		harmonics.getCMatrix().elements[i] = i + 1;
+	}
+
+	harmReCUDA(d,1,1,100, fs,harmonics);
 	d.deallocate();
 	return 1;
 }

@@ -14,6 +14,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="findHighestEnergyFundamentals_d.cpp" />
     <ClCompile Include="GenerateProjectionMatrix_d.cpp" />
     <ClCompile Include="HarmReCUDA.cpp" />
     <ClCompile Include="main.cpp" />
@@ -23,6 +24,7 @@
     <ClCompile Include="Vector_d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="findHighestEnergyFundamentals_d.h" />
     <ClInclude Include="GenerateProjectionMatrix_d.h" />
     <ClInclude Include="HarmReCUDA.h" />
     <ClInclude Include="Matrix.h" />
@@ -35,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
-    <CudaCompile Include="SquareElements_d.cu" />
+    <CudaCompile Include="SquareElements_cuda.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{81C70247-1C3F-4E25-9CF6-043F5D3B29DC}</ProjectGuid>

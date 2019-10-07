@@ -12,9 +12,16 @@ void generateProjectionMatrix_kernel(matrix dest_d, const double minFreq, const 
 	int columnIndex = i/dest_d.rows;
 	int rowIndex = ((2 * i) % dest_d.rows); //skip every second row
 	double t = columnIndex*deltaTime+startTime;
-	int fundamentalFrequencyIndex = rowIndex / (harmonics_d.rows);
-	int harmonicIndex = (rowIndex) % (harmonics_d.rows);
-	double fundamentalFrequency = (minFreq + (fundamentalFrequencyIndex) * (maxFreq - minFreq) / dest_d.columns);
+	int fundamentalFrequencyIndex = rowIndex / (2*harmonics_d.rows);
+	int fundamentalFrequencyEndIndex = (dest_d.rows-1) / (2 * harmonics_d.rows);
+	int harmonicIndex = (rowIndex/2) % (harmonics_d.rows);
+	double fundamentalFrequency;
+	if (fundamentalFrequencyEndIndex>0){
+		fundamentalFrequency = minFreq + (fundamentalFrequencyIndex) * (maxFreq - minFreq) / (fundamentalFrequencyEndIndex);
+	}
+	else {
+		fundamentalFrequency = minFreq;
+	}
 	double freq = fundamentalFrequency * harmonics_d.elements[harmonicIndex];
 	
 	
@@ -22,8 +29,8 @@ void generateProjectionMatrix_kernel(matrix dest_d, const double minFreq, const 
 	if (columnIndex < dest_d.columns) //make sure not to write outside of matrix, incase the number of elements did not have a base of 1024
 	sincos(
 		phase,
-		&(dest_d.elements[dest_d.rows * columnIndex + rowIndex+1]),
-		&(dest_d.elements[dest_d.rows * columnIndex + rowIndex])
+		&(dest_d.elements[MATRIX_INDEX(rowIndex+1, columnIndex, dest_d.rows)]),
+		&(dest_d.elements[MATRIX_INDEX(rowIndex,columnIndex,dest_d.rows)])
 	);
 }
 /**

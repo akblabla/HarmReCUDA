@@ -2,10 +2,24 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
-Matrix::Matrix(int rows, int columns)
+Matrix::Matrix(int rows, int columns, matrixInitialisation::matrixInitialisation initialisation)
 {
 	_Cmatrix.columns = columns;
 	_Cmatrix.rows = rows;
+	switch (initialisation)
+	{
+	case matrixInitialisation::no_init:
+		break;
+	case matrixInitialisation::allocate:
+		allocate();
+		break;
+	case matrixInitialisation::assign:
+		allocate();
+		break;
+	default:
+		break;
+	}
+
 }
 matrix Matrix::getCMatrix() const
 {
@@ -58,7 +72,7 @@ void Matrix::print(int rows, int columns)
 {
 	for (int j = 0; j < std::min(getRows(), rows); j++) {
 		for (int i = 0; i < std::min(getColumns(), columns); i++) {
-			printf("%1.3f\t", getElement(j, i));
+			printf("%10.3f", getElement(j, i));
 		}
 		printf("\n");
 	}
