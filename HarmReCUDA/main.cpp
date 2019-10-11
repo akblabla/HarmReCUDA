@@ -16,58 +16,35 @@
  */
 
 // includes, system
+#include <stdio.h>
+
 #include "HarmReCUDA.h"
 #include "Matrix.h"
 #include "Vector.h"
+#include <exception>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
-
 int main() {
-	/*printf("starting\n");
-
-	Matrix m(ROWS,COLUMNS);
-	m.allocateMatrix();
-	for (int i = 0; i < ROWS * COLUMNS; i++) {
-		m.getCMatrix().elements[i] = 0;
-	}
-	float time;
-	Matrix_d d_m(ROWS, COLUMNS);
-	Vector_d harmonics_d(50);
-	d_m.allocateMatrix();
-	harmonics_d.allocateMatrix();
-	//d_m.uploadMatrixToDevice(m);
-	generateProjectionMatrix_d(d_m, 49, 51, 0, 1.0 / 31250.0, harmonics_d);
-
-	d_m.downloadMatrixFromDevice(m);
-	//cudaFree(d_matrixElements);
-	printf("done\n");
-	d_m.deallocateMatrix();
-	harmonics_d.deallocateMatrix();
-
-	for (long j = 0; j < 8; j++) {
-		for (long i = 0; i < 8; i++) {
-			printf("%1.3f\t", m.getCMatrix().elements[j * COLUMNS + i]);
-		}
-		printf("\n");
-	}
-	m.deallocateMatrix();
-	*/
-	double fs = 30000;
-	Matrix d(30000, 100);
+	const double fs = 31250;
+	const double f = 2050;
+	const double phase = 0;// 3.14159265359 / 4.0;
+	Matrix d(fs, 1);
 	d.allocate();
 	for (int i = 0; i < d.getRows(); ++i) {
 		for (int j = 0; j < d.getColumns(); ++j) {
-			d.setElement(cos(2*3.14*i/ fs *(j+1)),i, j);
+			d.setElement(cos(f*2* M_PI *i/ fs *(j+1)+ phase),i, j);
 		}
 	}
 
 	Vector harmonics(2);
 	harmonics.allocate();
-	for (int i = 0; i < 2; ++i) {
+	for (int i = 0; i < harmonics.getRows(); ++i) {
 		harmonics.getCMatrix().elements[i] = i + 1;
 	}
 
-	harmReCUDA(d,1,1,100, fs,harmonics);
+	harmReCUDA(d, 2049.9, 2050.1, 110, fs, harmonics);
+	
 	d.deallocate();
 	return 1;
 }

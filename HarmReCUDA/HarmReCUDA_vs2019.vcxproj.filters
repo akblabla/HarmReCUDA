@@ -1,73 +1,207 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{e75313fb-36eb-49c9-b64f-0e17af1da8d9}</UniqueIdentifier>
+    <Filter Include="cublas">
+      <UniqueIdentifier>{02cb9293-b174-4476-ab18-d6bf0cffc73b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{f3c596b2-d256-49b4-ba3f-e92dff1eb63e}</UniqueIdentifier>
+    <Filter Include="C++Interface">
+      <UniqueIdentifier>{3f74e5b9-ede8-46f9-83cd-9c20f58c1d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra">
+      <UniqueIdentifier>{2eed326c-3a9b-40b1-8e6a-40c1bde4866c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra\Matrix">
+      <UniqueIdentifier>{dc423392-6be4-4368-8336-461a9a7cf3f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra\AMatrix">
+      <UniqueIdentifier>{2836630d-16b3-4206-8d48-c6721fb79a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra\Matrix_d">
+      <UniqueIdentifier>{ce970ea2-a475-4f6a-8322-963731d516e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra\Vector_d">
+      <UniqueIdentifier>{1060457d-4bb6-4fd2-b78e-fdb05acdc856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\LinearAlgebra\Vector">
+      <UniqueIdentifier>{418a613f-92ed-4bb0-9f69-a352dc2b3b22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller">
+      <UniqueIdentifier>{1f39ca29-bf19-4a0d-8821-1fd595cb2944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\GenerateProjectionMatrix">
+      <UniqueIdentifier>{a1253d11-45b5-4df4-b9f3-2a1118e189f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\FindHighestEnergyFundamentals">
+      <UniqueIdentifier>{11c209ab-bbc7-4a85-96d7-ba5089fbce5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDAKernels">
+      <UniqueIdentifier>{5d7b7f7a-82bc-430b-a59a-592d30dce1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\HarmReCUDA">
+      <UniqueIdentifier>{b507d876-8938-42ad-a63c-c1673dd3f7e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix_d.cpp">
-      <Filter>Source</Filter>
+      <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="HarmReCUDA.cpp">
-      <Filter>Source</Filter>
+      <Filter>C++Interface\LinearAlgebra\Vector</Filter>
     </ClCompile>
     <ClCompile Include="GenerateProjectionMatrix_d.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector_d.cpp">
-      <Filter>Source</Filter>
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClCompile>
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp">
-      <Filter>Source</Filter>
+      <Filter>C++Interface\Controller\FindHighestEnergyFundamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="HarmReCUDA.cpp">
+      <Filter>C++Interface\Controller\HarmReCUDA</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AMatrix.cpp">
+      <Filter>C++Interface\LinearAlgebra\AMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>C++Interface\LinearAlgebra\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector_d.cpp">
+      <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GenerateProjectionMatrix_d.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="inc\drvapi_error_string.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dynlink_d3d10.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dynlink_d3d11.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\exception.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_cuda.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_cuda_drvapi.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_cusolver.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_functions.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_gl.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_image.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_math.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_multiprocess.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_nvJPEG.hxx">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_string.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\helper_timer.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\multithreading.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvMath.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvMatrix.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvQuaternion.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvrtc_helper.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvShaderUtils.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\nvVector.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\param.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\paramgl.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rendercheck_d3d9.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rendercheck_d3d10.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rendercheck_d3d11.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rendercheck_gl.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rendercheck_gles.h">
+      <Filter>cublas</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\timer.h">
+      <Filter>cublas</Filter>
     </ClInclude>
     <ClInclude Include="Matrix_d.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Headers</Filter>
+      <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Headers</Filter>
+      <Filter>C++Interface\LinearAlgebra\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="HarmReCUDA.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector_d.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="GenerateProjectionMatrix_d.h">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClInclude>
     <ClInclude Include="findHighestEnergyFundamentals_d.h">
-      <Filter>Headers</Filter>
+      <Filter>C++Interface\Controller\FindHighestEnergyFundamentals</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LinearAlgebraStructs.h">
-      <Filter>Headers</Filter>
-    </None>
+    <ClInclude Include="HarmReCUDA.h">
+      <Filter>C++Interface\Controller\HarmReCUDA</Filter>
+    </ClInclude>
+    <ClInclude Include="AMatrix.h">
+      <Filter>C++Interface\LinearAlgebra\AMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>C++Interface\LinearAlgebra\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector_d.h">
+      <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu">
-      <Filter>Source</Filter>
+      <Filter>CUDAKernels</Filter>
     </CudaCompile>
     <CudaCompile Include="SquareElements_cuda.cu">
-      <Filter>Source</Filter>
+      <Filter>CUDAKernels</Filter>
     </CudaCompile>
+    <CudaCompile Include="partialMatrixSummation_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="findMaximum_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="elementWiseMultiplication_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LinearAlgebraStructs.h" />
   </ItemGroup>
 </Project>

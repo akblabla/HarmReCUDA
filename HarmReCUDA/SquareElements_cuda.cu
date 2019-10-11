@@ -5,7 +5,7 @@ void squareElements_kernel(matrix a_d)
 {
 	int i = blockIdx.x*blockDim.x + threadIdx.x;
 	int columnIndex = i / a_d.rows;
-	int rowIndex = i % a_d.rows; //skip every second row
+	int rowIndex = i % a_d.rows;
 	if (columnIndex < a_d.columns) {//make sure not to write outside of matrix, incase the number of elements did not have a base of 1024
 		double value = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)];
 		a_d.elements[MATRIX_INDEX(rowIndex,columnIndex,a_d.rows)] = value * value;

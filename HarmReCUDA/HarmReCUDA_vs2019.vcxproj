@@ -14,6 +14,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AMatrix.cpp" />
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp" />
     <ClCompile Include="GenerateProjectionMatrix_d.cpp" />
     <ClCompile Include="HarmReCUDA.cpp" />
@@ -24,9 +25,40 @@
     <ClCompile Include="Vector_d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AMatrix.h" />
     <ClInclude Include="findHighestEnergyFundamentals_d.h" />
     <ClInclude Include="GenerateProjectionMatrix_d.h" />
     <ClInclude Include="HarmReCUDA.h" />
+    <ClInclude Include="inc\drvapi_error_string.h" />
+    <ClInclude Include="inc\dynlink_d3d10.h" />
+    <ClInclude Include="inc\dynlink_d3d11.h" />
+    <ClInclude Include="inc\exception.h" />
+    <ClInclude Include="inc\helper_cuda.h" />
+    <ClInclude Include="inc\helper_cuda_drvapi.h" />
+    <ClInclude Include="inc\helper_cusolver.h" />
+    <ClInclude Include="inc\helper_functions.h" />
+    <ClInclude Include="inc\helper_gl.h" />
+    <ClInclude Include="inc\helper_image.h" />
+    <ClInclude Include="inc\helper_math.h" />
+    <ClInclude Include="inc\helper_multiprocess.h" />
+    <ClInclude Include="inc\helper_nvJPEG.hxx" />
+    <ClInclude Include="inc\helper_string.h" />
+    <ClInclude Include="inc\helper_timer.h" />
+    <ClInclude Include="inc\multithreading.h" />
+    <ClInclude Include="inc\nvMath.h" />
+    <ClInclude Include="inc\nvMatrix.h" />
+    <ClInclude Include="inc\nvQuaternion.h" />
+    <ClInclude Include="inc\nvrtc_helper.h" />
+    <ClInclude Include="inc\nvShaderUtils.h" />
+    <ClInclude Include="inc\nvVector.h" />
+    <ClInclude Include="inc\param.h" />
+    <ClInclude Include="inc\paramgl.h" />
+    <ClInclude Include="inc\rendercheck_d3d10.h" />
+    <ClInclude Include="inc\rendercheck_d3d11.h" />
+    <ClInclude Include="inc\rendercheck_d3d9.h" />
+    <ClInclude Include="inc\rendercheck_gl.h" />
+    <ClInclude Include="inc\rendercheck_gles.h" />
+    <ClInclude Include="inc\timer.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix_d.h" />
     <ClInclude Include="Vector.h" />
@@ -36,7 +68,10 @@
     <None Include="LinearAlgebraStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
+    <CudaCompile Include="findMaximum_cuda.cu" />
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
+    <CudaCompile Include="partialMatrixSummation_cuda.cu" />
     <CudaCompile Include="SquareElements_cuda.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -80,7 +115,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

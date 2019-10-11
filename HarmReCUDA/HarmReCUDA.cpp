@@ -15,49 +15,51 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("data in\n");
 	data.print();
 	printf("\n");
-	Matrix_d data_d(data,matrixInitialisation::assign);
+	Matrix_d data_d(data, Matrix::matrixInitialisation::M_ASSIGN);
+
+	Vector_d harmonics_d(harmonics, Matrix::M_ASSIGN);
+
 	
-	printf("harmonics\n");
-	harmonics.print();
+	Matrix_d projectionMatrix_d(harmonics.getRows() * fundamentalFrequencyResolution * 2, data.getRows(), Matrix::M_ALLOCATE);
+
+
+	Matrix harmonicAmplitudes(projectionMatrix_d.getRows(), data.getColumns(), Matrix::M_ALLOCATE);
+
+	Matrix_d harmonicAmplitudes_d(harmonicAmplitudes, Matrix::M_ALLOCATE);
+
+	
+	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
+	printf("Projection Matrix\n");
+	projectionMatrix_d.print(0,8, 0, 20);
 	printf("\n");
 
-	Vector_d harmonics_d(harmonics, matrixInitialisation::assign);
+	Matrix projectionMatrix(projectionMatrix_d, Matrix::M_ASSIGN);
 
-	Matrix projectionMatrix(harmonics.getRows()* fundamentalFrequencyResolution*2, data.getRows(), matrixInitialisation::allocate);
-
-	Matrix_d projectionMatrix_d(projectionMatrix, matrixInitialisation::allocate);
+	harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, data_d, 2.0 / data.getRows(), 0);
 
 
-	Matrix harmonicAmplitudes(projectionMatrix.getRows(), data.getColumns(), matrixInitialisation::allocate);
 
-	Matrix_d harmonicAmplitudes_d(harmonicAmplitudes,matrixInitialisation::allocate);
+	Matrix_d maskedHarmonicAmplitudes_d(harmonicAmplitudes_d, Matrix::M_ALLOCATE);
+	findHighestEnergyFundamentals_d(maskedHarmonicAmplitudes_d, harmonicAmplitudes_d, harmonics_d.getRows());
+	printf("Amplitudes\n");
+	harmonicAmplitudes_d.print(0, -1, 0, 1);
+	printf("\n");
+	printf("Masked Amplitudes\n");
+	maskedHarmonicAmplitudes_d.print(0, -1, 0, 1);
+	printf("\n");
 
-	
-	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, 1.0/ sampleRate, harmonics_d);
-
-	harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, data_d, 1, 0);
-
-	Matrix_d energyMask(harmonicAmplitudes_d, matrixInitialisation::allocate);
-
-	findHighestEnergyFundamentals_d(harmonicAmplitudes_d, energyMask, harmonics_d.getRows());
-
-	harmonicAmplitudes_d.downloadFromDevice(harmonicAmplitudes);
-	projectionMatrix_d.downloadFromDevice(projectionMatrix);
-
-
+	data_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, maskedHarmonicAmplitudes_d, -1, 1.0,Matrix_d::TRANS, Matrix_d::NO_TRANS);
 
 	printf("Done\n");
+
+	printf("Result\n");
+	data_d.print(50,5);
+	printf("\n");
+
+	harmonicAmplitudes.deallocate();
 	projectionMatrix_d.deallocate();
 	harmonics_d.deallocate();
 	harmonicAmplitudes_d.deallocate();
-
-	printf("Result\n");
-	harmonicAmplitudes.print();
-	printf("\n");
-
-	printf("Projection Matrix\n");
-	projectionMatrix.print();
-	printf("\n");
-	harmonicAmplitudes.deallocate();
+	maskedHarmonicAmplitudes_d.deallocate();
 
 }
