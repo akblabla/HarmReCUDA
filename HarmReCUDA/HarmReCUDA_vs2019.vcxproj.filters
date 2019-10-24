@@ -67,6 +67,9 @@
     <ClCompile Include="Vector_d.cpp">
       <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
     </ClCompile>
+    <ClCompile Include="blackmanWindow_d.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\drvapi_error_string.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="Vector_d.h">
       <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
     </ClInclude>
+    <ClInclude Include="blackmanWindow_d.h">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu">
@@ -198,6 +204,9 @@
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
     <CudaCompile Include="elementWiseMultiplication_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="blackmanWindow_cuda.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
   </ItemGroup>

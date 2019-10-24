@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AMatrix.cpp" />
+    <ClCompile Include="blackmanWindow_d.cpp" />
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp" />
     <ClCompile Include="GenerateProjectionMatrix_d.cpp" />
     <ClCompile Include="HarmReCUDA.cpp" />
@@ -26,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMatrix.h" />
+    <ClInclude Include="blackmanWindow_d.h" />
     <ClInclude Include="findHighestEnergyFundamentals_d.h" />
     <ClInclude Include="GenerateProjectionMatrix_d.h" />
     <ClInclude Include="HarmReCUDA.h" />
@@ -68,6 +70,7 @@
     <None Include="LinearAlgebraStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="blackmanWindow_cuda.cu" />
     <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
     <CudaCompile Include="findMaximum_cuda.cu" />
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
@@ -115,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Program Files (x86)\Matlab\extern\include;./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

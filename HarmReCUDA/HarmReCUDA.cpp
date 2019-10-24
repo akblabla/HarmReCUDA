@@ -7,7 +7,7 @@
 #include "GenerateProjectionMatrix_d.h"
 #include <cuda_runtime.h>
 #include "findHighestEnergyFundamentals_d.h"
-
+#include "blackmanWindow_d.h"
 
 void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximumFundamentalFrequency, int fundamentalFrequencyResolution, double sampleRate, Vector& harmonics)
 {
@@ -15,7 +15,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("data in\n");
 	data.print();
 	printf("\n");
-	Matrix_d data_d(data, Matrix::matrixInitialisation::M_ASSIGN);
+	Matrix_d data_d(data, Matrix::M_ASSIGN);
 
 	Vector_d harmonics_d(harmonics, Matrix::M_ASSIGN);
 
@@ -29,8 +29,9 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 
 	
 	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
+	blackmanWindow_d(projectionMatrix_d);
 	printf("Projection Matrix\n");
-	projectionMatrix_d.print(0,8, 0, 20);
+	projectionMatrix_d.print();
 	printf("\n");
 
 	Matrix projectionMatrix(projectionMatrix_d, Matrix::M_ASSIGN);
@@ -47,6 +48,9 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("Masked Amplitudes\n");
 	maskedHarmonicAmplitudes_d.print(0, -1, 0, 1);
 	printf("\n");
+
+
+	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
 
 	data_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, maskedHarmonicAmplitudes_d, -1, 1.0,Matrix_d::TRANS, Matrix_d::NO_TRANS);
 

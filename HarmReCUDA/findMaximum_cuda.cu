@@ -25,7 +25,7 @@ void findMaximum_kernel(matrix a_d)
 /**
 *creates a projection matrix on the gpu to the given matrix on the device.
 **/
-extern "C" void findMaximum_d(matrix a_d) {
+extern "C" void findMaximum_cuda(matrix a_d) {
 	int N = a_d.columns; //each thread handles one column each
 	findMaximum_kernel << <(N + 255) / 256, 256 >> > (a_d);
 }

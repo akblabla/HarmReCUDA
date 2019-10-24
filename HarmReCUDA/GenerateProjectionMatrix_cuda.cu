@@ -23,7 +23,7 @@ void generateProjectionMatrix_kernel(matrix dest_d, const double minFreq, const 
 	double freq = fundamentalFrequency * harmonics_d.elements[harmonicIndex];
 	
 
-	double phase = freq*t;
+	double phase = freq* t;
 	double finalPhase = freq*(dest_d.columns * deltaTime + startTime);
 	double finalWholePhase = ((double)(2 * M_PI)) * __double2int_rd(finalPhase / (2*M_PI));
 	double renomalizeFactor = finalPhase / finalWholePhase;
@@ -33,8 +33,8 @@ void generateProjectionMatrix_kernel(matrix dest_d, const double minFreq, const 
 			&(dest_d.elements[MATRIX_INDEX(rowIndex + 1, columnIndex, dest_d.rows)]),
 			&(dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex, dest_d.rows)])
 		);
-		dest_d.elements[MATRIX_INDEX(rowIndex + 1, columnIndex, dest_d.rows)] *= renomalizeFactor;
-		dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex, dest_d.rows)] *= renomalizeFactor;
+		//dest_d.elements[MATRIX_INDEX(rowIndex + 1, columnIndex, dest_d.rows)] *= renomalizeFactor;
+		//dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex, dest_d.rows)] *= renomalizeFactor;
 	}
 }
 /**

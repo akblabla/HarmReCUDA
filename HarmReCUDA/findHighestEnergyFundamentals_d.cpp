@@ -6,8 +6,8 @@
 
 extern "C" void squareElements_d(matrix a_d);
 extern "C" void partialMatrixSummation_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor);
-extern "C" void findMaximum_d(matrix a_d);
-extern "C" void elementWiseMultiplication_d(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor);
+extern "C" void findMaximum_cuda(matrix a_d);
+extern "C" void elementWiseMultiplication_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor);
 
 void findHighestEnergyFundamentals_d(Matrix_d& destination, const Matrix_d& src, int harmonicCount)
 {
@@ -30,12 +30,12 @@ void findHighestEnergyFundamentals_d(Matrix_d& destination, const Matrix_d& src,
 	energies_d.print(0,-1, 0, 1);
 	printf("\n");
 
-	findMaximum_d(energies_d.getCMatrix());
+	findMaximum_cuda(energies_d.getCMatrix());
 	printf("Mask\n");
 	energies_d.print(0, -1, 0, 1);
 	printf("\n");
 	destination.copyFromDevice(src);
-	elementWiseMultiplication_d(destination.getCMatrix(), energies_d.getCMatrix(), (2 * harmonicCount), 1);
+	elementWiseMultiplication_cuda(destination.getCMatrix(), energies_d.getCMatrix(), (2 * harmonicCount), 1);
 	harmonicEnergies_d.deallocate();
 	energies_d.deallocate();
 }

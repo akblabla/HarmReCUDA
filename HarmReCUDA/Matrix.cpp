@@ -88,7 +88,7 @@ void Matrix::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
 	columnsEnd = std::min(getColumns(), columnsEnd);
 	for (int j = rowsStart; j < rowsEnd; j++) {
 		for (int i = columnsStart; i < columnsEnd; i++) {
-			printf("%10.6f", getElement(j, i));
+			printf("%10.6lf", getElement(j, i));
 		}
 		printf("\n");
 	}
