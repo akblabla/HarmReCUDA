@@ -31,14 +31,20 @@
     <Filter Include="C++Interface\Controller\GenerateProjectionMatrix">
       <UniqueIdentifier>{a1253d11-45b5-4df4-b9f3-2a1118e189f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Interface\Controller\FindHighestEnergyFundamentals">
-      <UniqueIdentifier>{11c209ab-bbc7-4a85-96d7-ba5089fbce5c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CUDAKernels">
       <UniqueIdentifier>{5d7b7f7a-82bc-430b-a59a-592d30dce1df}</UniqueIdentifier>
     </Filter>
     <Filter Include="C++Interface\Controller\HarmReCUDA">
       <UniqueIdentifier>{b507d876-8938-42ad-a63c-c1673dd3f7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\SearchAlgorithms">
+      <UniqueIdentifier>{0bc61b09-c582-4af0-8c01-861f95f5f487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\SearchAlgorithms\SubtractionSearch">
+      <UniqueIdentifier>{bed47a4f-94dd-4bea-884f-026f6fc64b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals">
+      <UniqueIdentifier>{11c209ab-bbc7-4a85-96d7-ba5089fbce5c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +58,7 @@
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClCompile>
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp">
-      <Filter>C++Interface\Controller\FindHighestEnergyFundamentals</Filter>
+      <Filter>C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals</Filter>
     </ClCompile>
     <ClCompile Include="HarmReCUDA.cpp">
       <Filter>C++Interface\Controller\HarmReCUDA</Filter>
@@ -69,6 +75,9 @@
     </ClCompile>
     <ClCompile Include="blackmanWindow_d.cpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="subtractionSearch.cpp">
+      <Filter>C++Interface\Controller\SearchAlgorithms\SubtractionSearch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +181,7 @@
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClInclude>
     <ClInclude Include="findHighestEnergyFundamentals_d.h">
-      <Filter>C++Interface\Controller\FindHighestEnergyFundamentals</Filter>
+      <Filter>C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals</Filter>
     </ClInclude>
     <ClInclude Include="HarmReCUDA.h">
       <Filter>C++Interface\Controller\HarmReCUDA</Filter>
@@ -188,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="blackmanWindow_d.h">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="subtractionSearch.h">
+      <Filter>C++Interface\Controller\SearchAlgorithms\SubtractionSearch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

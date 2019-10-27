@@ -22,6 +22,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
+    <ClCompile Include="subtractionSearch.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector_d.cpp" />
   </ItemGroup>
@@ -63,6 +64,7 @@
     <ClInclude Include="inc\timer.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix_d.h" />
+    <ClInclude Include="subtractionSearch.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vector_d.h" />
   </ItemGroup>

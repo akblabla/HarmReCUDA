@@ -29,10 +29,10 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 
 	
 	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
-	blackmanWindow_d(projectionMatrix_d);
 	printf("Projection Matrix\n");
 	projectionMatrix_d.print();
 	printf("\n");
+	blackmanWindow_d(projectionMatrix_d);
 
 	Matrix projectionMatrix(projectionMatrix_d, Matrix::M_ASSIGN);
 
