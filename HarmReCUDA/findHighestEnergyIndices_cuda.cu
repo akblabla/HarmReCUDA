@@ -16,7 +16,7 @@ void findHighestEnergyIndices_kernel(matrix dest_d, matrix src_d, unsigned int r
 }
 
 
-extern "C" void findHighestEnergyIndices_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor) {
-	int N = dest_d.rows * dest_d.columns;
-	findHighestEnergyIndices_kernel << <(N + 1023) / 1024, 1024 >> > (dest_d, src_d, rowFactor, columnFactor);
+extern "C" void findHighestEnergiesFrequencies_cuda(matrix energies_d, matrix centralFreq_d, const matrix src_d) {
+	int N = energies_d.rows * energies_d.columns;
+	findHighestEnergyIndices_kernel << <(N + 1023) / 1024, 1024 >> > (energies_d, src_d, 1, 1);
 }

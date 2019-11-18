@@ -21,6 +21,32 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	
 	Matrix_d data_d(data, Matrix::M_ASSIGN);
 
+
+	Vector time(data_d.getRows(), Matrix::M_ALLOCATE);
+	for (int i = 0; i < time.getRows(); ++i) {
+		time.setElement(i / sampleRate, i, 0);
+	}
+	Vector_d time_d(time, Matrix::M_ASSIGN);
+
+	printf("time vector\n");
+	time_d.print();
+	printf("\n");
+
+
+	Vector fundamentalFrequencies(fundamentalFrequencyResolution, Matrix::M_ALLOCATE);
+	double deltaFundamentalFrequency = (maximumFundamentalFrequency - minimumFundamentalFrequency) / fundamentalFrequencyResolution;
+	for (int i = 0; i < fundamentalFrequencies.getRows(); ++i) {
+		fundamentalFrequencies.setElement(minimumFundamentalFrequency + deltaFundamentalFrequency * i, i, 0);
+	}
+	Vector_d fundamentalFrequencies_d(fundamentalFrequencies, Matrix::M_ASSIGN);
+
+	printf("fundamental frequencies vector\n");
+	fundamentalFrequencies_d.print();
+	printf("\n");
+
+
+
+
 	Vector_d harmonics_d(harmonics, Matrix::M_ASSIGN);
 
 	
@@ -32,7 +58,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	Matrix_d harmonicAmplitudes_d(harmonicAmplitudes, Matrix::M_ALLOCATE);
 
 	
-	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
+	generateProjectionMatrix_d(projectionMatrix_d, fundamentalFrequencies_d, time_d, harmonics_d);
 	#ifdef DEBUG
 	printf("Projection Matrix\n");
 	projectionMatrix_d.print();
@@ -54,8 +80,6 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	maskedHarmonicAmplitudes_d.print(0, 50, 0, 5);
 	printf("\n");
 	#endif
-
-	generateProjectionMatrix_d(projectionMatrix_d, minimumFundamentalFrequency, maximumFundamentalFrequency, 0, sampleRate, harmonics_d);
 
 	data_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, maskedHarmonicAmplitudes_d, -1, 1.0,Matrix_d::TRANS, Matrix_d::NO_TRANS);
 	#ifdef DEBUG
