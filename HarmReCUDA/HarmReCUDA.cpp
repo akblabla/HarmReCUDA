@@ -81,6 +81,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("\n");
 	#endif
 
+	generateProjectionMatrix_d(projectionMatrix_d, fundamentalFrequencies_d, time_d, harmonics_d);
 	data_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, maskedHarmonicAmplitudes_d, -1, 1.0,Matrix_d::TRANS, Matrix_d::NO_TRANS);
 	#ifdef DEBUG
 
