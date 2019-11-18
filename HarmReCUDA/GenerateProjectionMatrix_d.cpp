@@ -1,4 +1,4 @@
-#include "GenerateProjectionMatrix_d.h"
+#include "GenerateProjectionMatrix_d.hpp"
 #include <exception>
 #define _USE_MATH_DEFINES
 #include <math.h>

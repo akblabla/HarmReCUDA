@@ -46,6 +46,9 @@
     <Filter Include="C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals">
       <UniqueIdentifier>{11c209ab-bbc7-4a85-96d7-ba5089fbce5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Matlab Interface">
+      <UniqueIdentifier>{345010bf-14c4-4692-a82b-d33d54c10ca3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix_d.cpp">
@@ -78,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="subtractionSearch.cpp">
       <Filter>C++Interface\Controller\SearchAlgorithms\SubtractionSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="matlabInterface.cpp">
+      <Filter>Matlab Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,35 +177,38 @@
     <ClInclude Include="inc\timer.h">
       <Filter>cublas</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix_d.h">
-      <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>C++Interface\LinearAlgebra\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="GenerateProjectionMatrix_d.h">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClInclude>
-    <ClInclude Include="findHighestEnergyFundamentals_d.h">
-      <Filter>C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals</Filter>
-    </ClInclude>
-    <ClInclude Include="HarmReCUDA.h">
-      <Filter>C++Interface\Controller\HarmReCUDA</Filter>
-    </ClInclude>
-    <ClInclude Include="AMatrix.h">
-      <Filter>C++Interface\LinearAlgebra\AMatrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>C++Interface\LinearAlgebra\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector_d.h">
-      <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
-    </ClInclude>
-    <ClInclude Include="blackmanWindow_d.h">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClInclude>
     <ClInclude Include="subtractionSearch.h">
       <Filter>C++Interface\Controller\SearchAlgorithms\SubtractionSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.hpp">
+      <Filter>C++Interface\LinearAlgebra\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="AMatrix.hpp">
+      <Filter>C++Interface\LinearAlgebra\AMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.hpp">
+      <Filter>C++Interface\LinearAlgebra\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix_d.hpp">
+      <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
+    </ClInclude>
+    <ClInclude Include="blackmanWindow_d.hpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateProjectionMatrix_d.hpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="HarmReCUDA.hpp">
+      <Filter>C++Interface\Controller\HarmReCUDA</Filter>
+    </ClInclude>
+    <ClInclude Include="findHighestEnergyFundamentals_d.hpp">
+      <Filter>C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector_d.hpp">
+      <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
+    </ClInclude>
+    <ClInclude Include="matlabInterface.hpp">
+      <Filter>Matlab Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +228,9 @@
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
     <CudaCompile Include="blackmanWindow_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="findHighestEnergyIndices_cuda.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
   </ItemGroup>

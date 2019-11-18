@@ -17,34 +17,60 @@
 
 // includes, system
 #include <stdio.h>
+#include <iostream>
 
-#include "HarmReCUDA.h"
-#include "Matrix.h"
-#include "Vector.h"
+#include "matlabInterface.hpp"
+#include "HarmReCUDA.hpp"
+#include "Matrix.hpp"
+#include "Vector.hpp"
 #include <exception>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <Windows.h>
+
+#include <chrono>  // for high_resolution_clock
+
+
+
 
 int main() {
 	const double fs = 31250;
 	const double f = 2050;
 	const double phase = 0;// 3.14159265359 / 4.0;
-	Matrix d(fs, 1);
+/*	Matrix d(fs, 1);
 	d.allocate();
 	for (int i = 0; i < d.getRows(); ++i) {
 		for (int j = 0; j < d.getColumns(); ++j) {
 			d.setElement(cos(f*2* M_PI *i/ fs *(j+1)+ phase),i, j);
 		}
 	}
+	*/
+	// Record start time
 
-	Vector harmonics(2);
+
+	//printf("%d", diagnose("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\test.mat"));
+	Matrix d = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat");
+	auto start = std::chrono::high_resolution_clock::now();
+	//d.print();
+	Vector harmonics(100);
 	harmonics.allocate();
 	for (int i = 0; i < harmonics.getRows(); ++i) {
 		harmonics.getCMatrix().elements[i] = i + 1;
 	}
 
-	harmReCUDA(d, 2049.9, 2050.1, 110, fs, harmonics);
-	
+	harmReCUDA(d, 49.9, 50.1, 40, fs, harmonics);
+
+	// Record end time
+	auto finish = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed = finish - start;
+	std::cout << "Harmonic removal execution time: " << elapsed.count() << " seconds" << std::endl;
+
+	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\out.mat",d);
 	d.deallocate();
+
+
+
+	std::cout << std::endl;
+
 	return 1;
 }

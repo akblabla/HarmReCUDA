@@ -1,4 +1,4 @@
-#include "findHighestEnergyFundamentals_d.h"
+#include "findHighestEnergyFundamentals_d.hpp"
 #include <exception>
 #include <stdio.h>
 #include "cuda_runtime.h"
@@ -21,19 +21,28 @@ void findHighestEnergyFundamentals_d(Matrix_d& destination, const Matrix_d& src,
 	}
 	Matrix_d harmonicEnergies_d(src, Matrix::matrixInitialisation::M_ASSIGN);
 	squareElements_d(harmonicEnergies_d.getCMatrix());
+	#ifdef DEBUG
 	printf("Harmonic Energies\n");
 	harmonicEnergies_d.print(200, 300, 0, 1);
 	printf("\n");
+	#endif // DEBUG
+
+
 	Matrix_d energies_d(harmonicEnergies_d.getRows()/ (2 * harmonicCount), harmonicEnergies_d.getColumns(), Matrix::matrixInitialisation::M_ALLOCATE);
 	partialMatrixSummation_cuda(energies_d.getCMatrix(), harmonicEnergies_d.getCMatrix(), (2 * harmonicCount), 1);
+	#ifdef DEBUG
 	printf("Energies\n");
-	energies_d.print(0,-1, 0, 1);
+	energies_d.print(0,-1, 0, 10);
 	printf("\n");
+	#endif
 
 	findMaximum_cuda(energies_d.getCMatrix());
+	
+	#ifdef DEBUG
 	printf("Mask\n");
-	energies_d.print(0, -1, 0, 1);
+	energies_d.print(0, -1, 0, 10);
 	printf("\n");
+	#endif
 	destination.copyFromDevice(src);
 	elementWiseMultiplication_cuda(destination.getCMatrix(), energies_d.getCMatrix(), (2 * harmonicCount), 1);
 	harmonicEnergies_d.deallocate();

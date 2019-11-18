@@ -1,4 +1,4 @@
-#include "Vector_d.h"
+#include "Vector_d.hpp"
 
 Vector_d::Vector_d(int length, matrixInitialisation initialisation) : Matrix_d(length,1, initialisation)
 {

@@ -8,8 +8,8 @@ void elementWiseMultiplication_kernel(matrix dest_d, matrix src_d, unsigned int 
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	int destColumnIndex = (i / dest_d.rows)%dest_d.columns;
 	int destRowIndex = i % dest_d.rows;
-	int srcColumnIndex = (i / columnFactor / src_d.rows)% src_d.columns;
-	int srcRowIndex = (i / rowFactor % src_d.rows);
+	int srcColumnIndex = ((i / rowFactor / columnFactor) / src_d.rows)% src_d.columns;
+	int srcRowIndex = ((i / rowFactor) % src_d.rows);
 	if (destColumnIndex < dest_d.columns && srcColumnIndex < src_d.columns) { //don't write outside matrix
 		dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d.rows)] *= src_d.elements[MATRIX_INDEX(srcRowIndex, srcColumnIndex, src_d.rows)];
 	}

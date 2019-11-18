@@ -1,4 +1,4 @@
-#include "findHighestEnergyFundamentals_d.h"
+#include "findHighestEnergyFundamentals_d.hpp"
 #include <exception>
 #include <stdio.h>
 #include "cuda_runtime.h"

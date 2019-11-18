@@ -1,9 +1,10 @@
 #pragma once
 #include "LinearAlgebraStructs.h"
-#include "AMatrix.h"
-#include "Matrix_d.h"
+#include "AMatrix.hpp"
+#include "Matrix_d.hpp"
+
 class Matrix_d;
-class Matrix : public AMatrix
+extern class Matrix : public AMatrix
 {
 public:
 	Matrix(int rows, int columns, matrixInitialisation initialisation = matrixInitialisation::M_NO_INIT);

@@ -1,4 +1,4 @@
-#include "AMatrix.h"
+#include "AMatrix.hpp"
 AMatrix::AMatrix(int rows, int columns)
 {
 	_Cmatrix.columns = columns;

@@ -1,7 +1,7 @@
 #pragma once
-#include "Matrix_d.h"
-#include "Vector.h"
-class Vector_d :
+#include "Matrix_d.hpp"
+#include "Vector.hpp"
+extern class Vector_d :
 	public Matrix_d
 {
 public:

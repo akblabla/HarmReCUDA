@@ -1,5 +1,5 @@
 #pragma once
 #include "LinearAlgebraStructs.h"
-#include "Matrix_d.h"
-#include "Vector_d.h"
+#include "Matrix_d.hpp"
+#include "Vector_d.hpp"
 void findHighestEnergyFundamentals_d(Matrix_d& destination, const Matrix_d& src, int harmonicCount);

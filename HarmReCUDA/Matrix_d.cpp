@@ -1,4 +1,4 @@
-#include "Matrix_d.h"
+#include "Matrix_d.hpp"
 #include <cuda_runtime.h>
 #include <exception>
 #include <iostream>
