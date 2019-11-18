@@ -52,13 +52,13 @@ int main() {
 	Matrix d = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat");
 	auto start = std::chrono::high_resolution_clock::now();
 	//d.print();
-	Vector harmonics(100);
+	Vector harmonics(50);
 	harmonics.allocate();
 	for (int i = 0; i < harmonics.getRows(); ++i) {
 		harmonics.getCMatrix().elements[i] = i + 1;
 	}
 
-	harmReCUDA(d, 49.9, 50.1, 40, fs, harmonics);
+	harmReCUDA(d, 49.9, 50.1, 110, fs, harmonics);
 
 	// Record end time
 	auto finish = std::chrono::high_resolution_clock::now();

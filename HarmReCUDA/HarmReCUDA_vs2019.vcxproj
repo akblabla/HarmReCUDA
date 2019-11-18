@@ -122,7 +122,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Program Files (x86)\Matlab\extern\include;./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc;./mex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
