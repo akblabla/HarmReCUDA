@@ -34,8 +34,8 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 
 
 	Vector fundamentalFrequencies(fundamentalFrequencyResolution, Matrix::M_ALLOCATE);
-	double deltaFundamentalFrequency = (maximumFundamentalFrequency - minimumFundamentalFrequency) / fundamentalFrequencyResolution;
-	for (int i = 0; i < fundamentalFrequencies.getRows(); ++i) {
+	double deltaFundamentalFrequency = (maximumFundamentalFrequency - minimumFundamentalFrequency) / (double)fundamentalFrequencyResolution;
+	for (int i = 0; i < fundamentalFrequencyResolution; ++i) {
 		fundamentalFrequencies.setElement(minimumFundamentalFrequency + deltaFundamentalFrequency * i, i, 0);
 	}
 	Vector_d fundamentalFrequencies_d(fundamentalFrequencies, Matrix::M_ASSIGN);
