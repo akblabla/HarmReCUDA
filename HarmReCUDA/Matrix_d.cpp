@@ -109,14 +109,14 @@ void Matrix_d::copyFromDevice(const Matrix_d& src)
 	}
 }
 
-void Matrix_d::GeneralMatrixToMatrixMultiply(Matrix_d& A, Matrix_d& B, double alpha, double beta)
+void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta)
 {
 	matrixTranspose transposeA = NO_TRANS;
 	matrixTranspose transposeB = NO_TRANS;
 	GeneralMatrixToMatrixMultiply(A, B, alpha, beta, transposeA, transposeB);
 }
 
-void Matrix_d::GeneralMatrixToMatrixMultiply(Matrix_d& A, Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB)
+void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB)
 {
 	cublasStatus_t stat;
 	cublasHandle_t handle;

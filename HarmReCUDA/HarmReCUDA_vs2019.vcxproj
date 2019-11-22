@@ -23,6 +23,7 @@
     <ClCompile Include="matlabInterface.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
+    <ClCompile Include="ParabularSearch.cpp" />
     <ClCompile Include="subtractionSearch.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector_d.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="matlabInterface.hpp" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="Matrix_d.hpp" />
+    <ClInclude Include="ParabularSearch.hpp" />
     <ClInclude Include="subtractionSearch.h" />
     <ClInclude Include="Vector.hpp" />
     <ClInclude Include="Vector_d.hpp" />
@@ -75,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="blackmanWindow_cuda.cu" />
+    <CudaCompile Include="elementWiseDivision.cu" />
     <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
     <CudaCompile Include="findHighestEnergyIndices_cuda.cu" />
     <CudaCompile Include="findMaximum_cuda.cu" />
@@ -122,7 +125,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;DEBUG;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Program Files (x86)\Matlab\extern\include;./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc;./mex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -141,8 +144,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

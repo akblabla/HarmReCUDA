@@ -27,22 +27,29 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 		time.setElement(i / sampleRate, i, 0);
 	}
 	Vector_d time_d(time, Matrix::M_ASSIGN);
-
+	time.deallocate();
+#ifdef DEBUG
 	printf("time vector\n");
 	time_d.print();
 	printf("\n");
 
+#endif // DEBUG
+
+
 
 	Vector fundamentalFrequencies(fundamentalFrequencyResolution, Matrix::M_ALLOCATE);
-	double deltaFundamentalFrequency = (maximumFundamentalFrequency - minimumFundamentalFrequency) / (double)fundamentalFrequencyResolution;
+	const double deltaFundamentalFrequency = (maximumFundamentalFrequency - minimumFundamentalFrequency) / (double)fundamentalFrequencyResolution;
 	for (int i = 0; i < fundamentalFrequencyResolution; ++i) {
 		fundamentalFrequencies.setElement(minimumFundamentalFrequency + deltaFundamentalFrequency * i, i, 0);
 	}
 	Vector_d fundamentalFrequencies_d(fundamentalFrequencies, Matrix::M_ASSIGN);
-
+	fundamentalFrequencies.deallocate();
+#ifdef DEBUG
 	printf("fundamental frequencies vector\n");
 	fundamentalFrequencies_d.print();
 	printf("\n");
+
+#endif // DEBUG
 
 
 
@@ -53,9 +60,9 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	Matrix_d projectionMatrix_d(harmonics.getRows() * fundamentalFrequencyResolution * 2, data.getRows(), Matrix::M_ALLOCATE);
 
 
-	Matrix harmonicAmplitudes(projectionMatrix_d.getRows(), data.getColumns(), Matrix::M_ALLOCATE);
+	//Matrix harmonicAmplitudes(projectionMatrix_d.getRows(), data.getColumns(), Matrix::M_ALLOCATE);
 
-	Matrix_d harmonicAmplitudes_d(harmonicAmplitudes, Matrix::M_ALLOCATE);
+	Matrix_d harmonicAmplitudes_d(projectionMatrix_d.getRows(), data.getColumns(), Matrix::M_ALLOCATE);
 
 	
 	generateProjectionMatrix_d(projectionMatrix_d, fundamentalFrequencies_d, time_d, harmonics_d);
@@ -65,8 +72,6 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("\n");
 	#endif
 	blackmanWindow_d(projectionMatrix_d);
-
-	Matrix projectionMatrix(projectionMatrix_d, Matrix::M_ASSIGN);
 
 	harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, data_d, 2.0 / data.getRows(), 0);
 
@@ -92,7 +97,6 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	printf("\n");
 	#endif
 	data.downloadFromDevice(data_d);
-	harmonicAmplitudes.deallocate();
 	projectionMatrix_d.deallocate();
 	harmonics_d.deallocate();
 	harmonicAmplitudes_d.deallocate();

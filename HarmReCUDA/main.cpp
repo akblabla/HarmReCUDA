@@ -35,20 +35,7 @@
 
 int main() {
 	const double fs = 31250;
-	const double f = 2050;
-	const double phase = 0;// 3.14159265359 / 4.0;
-/*	Matrix d(fs, 1);
-	d.allocate();
-	for (int i = 0; i < d.getRows(); ++i) {
-		for (int j = 0; j < d.getColumns(); ++j) {
-			d.setElement(cos(f*2* M_PI *i/ fs *(j+1)+ phase),i, j);
-		}
-	}
-	*/
-	// Record start time
 
-
-	//printf("%d", diagnose("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\test.mat"));
 	Matrix d = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat");
 	auto start = std::chrono::high_resolution_clock::now();
 	//d.print();
@@ -58,7 +45,7 @@ int main() {
 		harmonics.getCMatrix().elements[i] = i + 1;
 	}
 
-	harmReCUDA(d, 49.9, 50.1, 110, fs, harmonics);
+	harmReCUDA(d, 49.9 * (2 * M_PI), 50.1 * (2 * M_PI), 110, fs, harmonics);
 
 	// Record end time
 	auto finish = std::chrono::high_resolution_clock::now();

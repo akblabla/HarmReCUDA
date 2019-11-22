@@ -49,6 +49,9 @@
     <Filter Include="Matlab Interface">
       <UniqueIdentifier>{345010bf-14c4-4692-a82b-d33d54c10ca3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Interface\Controller\SearchAlgorithms\ParabularSearch">
+      <UniqueIdentifier>{219b5ba9-d546-4d19-99c8-8eddf726fa1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix_d.cpp">
@@ -84,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="matlabInterface.cpp">
       <Filter>Matlab Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ParabularSearch.cpp">
+      <Filter>C++Interface\Controller\SearchAlgorithms\ParabularSearch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="matlabInterface.hpp">
       <Filter>Matlab Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ParabularSearch.hpp">
+      <Filter>C++Interface\Controller\SearchAlgorithms\ParabularSearch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

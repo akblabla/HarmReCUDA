@@ -15,7 +15,7 @@ void elementWiseMultiplication_kernel(matrix dest_d, matrix src_d, unsigned int 
 	}
 }
 /**
-*Multiplies element wise the src matrix and the dest matrix and stores the result in dest. rowFactor and columnFactor expands the src matrix by the given factor. If src matrix is smaller that dest after being expanded, the index wraps.
+*Multiplies element wise the src matrix and the dest matrix and stores the result in dest. rowFactor and columnFactor expands the src matrix by the given factor. If src matrix is smaller than dest after being expanded, the index wraps.
 **/
 extern "C" void elementWiseMultiplication_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor) {
 	int N = dest_d.rows * dest_d.columns;

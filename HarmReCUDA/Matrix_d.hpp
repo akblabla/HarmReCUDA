@@ -13,8 +13,8 @@ public:
 	void deallocate() override;
 	virtual void uploadToDevice(const Matrix& src);
 	virtual void copyFromDevice(const Matrix_d& src);
-	virtual void GeneralMatrixToMatrixMultiply(Matrix_d& A, Matrix_d& B, double alpha, double beta);
-	virtual void GeneralMatrixToMatrixMultiply(Matrix_d& A, Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB);
+	virtual void GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta);
+	virtual void GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB);
 	virtual void print(int rows = 10, int columns = 5) override;
 	virtual void print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) override;
 };
