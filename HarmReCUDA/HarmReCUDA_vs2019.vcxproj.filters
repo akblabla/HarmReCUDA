@@ -52,6 +52,12 @@
     <Filter Include="C++Interface\Controller\SearchAlgorithms\ParabularSearch">
       <UniqueIdentifier>{219b5ba9-d546-4d19-99c8-8eddf726fa1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix">
+      <UniqueIdentifier>{7bd0db7e-0bf2-45ff-b545-8ad6c625b726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow">
+      <UniqueIdentifier>{ca1418a3-5953-4727-bfd5-56d31e4e69a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix_d.cpp">
@@ -79,17 +85,17 @@
     <ClCompile Include="Vector_d.cpp">
       <Filter>C++Interface\LinearAlgebra\Vector_d</Filter>
     </ClCompile>
-    <ClCompile Include="blackmanWindow_d.cpp">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClCompile>
     <ClCompile Include="subtractionSearch.cpp">
       <Filter>C++Interface\Controller\SearchAlgorithms\SubtractionSearch</Filter>
     </ClCompile>
     <ClCompile Include="matlabInterface.cpp">
       <Filter>Matlab Interface</Filter>
     </ClCompile>
-    <ClCompile Include="ParabularSearch.cpp">
+    <ClCompile Include="parabularSearch.cpp">
       <Filter>C++Interface\Controller\SearchAlgorithms\ParabularSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="blackmanWindow_d.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,9 +204,6 @@
     <ClInclude Include="Matrix_d.hpp">
       <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
     </ClInclude>
-    <ClInclude Include="blackmanWindow_d.hpp">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClInclude>
     <ClInclude Include="GenerateProjectionMatrix_d.hpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClInclude>
@@ -216,8 +219,14 @@
     <ClInclude Include="matlabInterface.hpp">
       <Filter>Matlab Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ParabularSearch.hpp">
+    <ClInclude Include="parabularSearch.hpp">
       <Filter>C++Interface\Controller\SearchAlgorithms\ParabularSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="parabularSearchDefinitions.h">
+      <Filter>C++Interface\Controller\SearchAlgorithms\ParabularSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="blackmanWindow_d.hpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,7 +248,10 @@
     <CudaCompile Include="blackmanWindow_cuda.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
-    <CudaCompile Include="findHighestEnergyIndices_cuda.cu">
+    <CudaCompile Include="findHighestEnergyFrequencies_cuda.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="elementWiseDivision.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
   </ItemGroup>

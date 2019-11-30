@@ -108,7 +108,7 @@ int diagnose(const char* file) {
 	return(0);
 }
 
-Matrix matLoad(const char* file)
+Matrix matLoad(const char* file, const char* symbol)
 {
 	// open MAT-file
 	MATFile* pmat = matOpen(file, "r");
@@ -133,7 +133,7 @@ Matrix matLoad(const char* file)
 	mxFree(dir);
 
 	// extract the specified variable
-	mxArray* arr = matGetVariable(pmat, "data");
+	mxArray* arr = matGetVariable(pmat, symbol);
 	if (arr != NULL && mxIsDouble(arr) && !mxIsEmpty(arr)) {
 		// copy data
 		mwSize rows = mxGetM(arr);
@@ -156,7 +156,7 @@ Matrix matLoad(const char* file)
 	return dest;
 }
 
-void matSave(const char* file, Matrix& source)
+void matSave(const char* file, const char* symbol, Matrix& source)
 {
 	// open MAT-file
 	MATFile* pmat = matOpen(file, "wL");
@@ -186,7 +186,7 @@ void matSave(const char* file, Matrix& source)
 	double* pr = mxGetPr(arr);
 	memcpy(pr, source.getCMatrix().elements, sizeof(double) * source.getElementsCount());
 
-	matPutVariable(pmat, "data", arr);
+	matPutVariable(pmat, symbol, arr);
 
 	// cleanup
 	mxDestroyArray(arr);

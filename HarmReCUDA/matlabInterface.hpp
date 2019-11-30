@@ -1,5 +1,5 @@
 #pragma once
 #include "Matrix.hpp"
-Matrix matLoad(const char* file);
-void matSave(const char* file, Matrix & A);
+Matrix matLoad(const char* file, const char* symbol);
+void matSave(const char* file, const char* symbol, Matrix & A);
 int diagnose(const char* file);

@@ -34,26 +34,40 @@
 
 
 int main() {
+
+
+
 	const double fs = 31250;
 
-	Matrix d = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat");
+	Matrix data = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat","data");
+	Matrix harmonicsMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat","harmonics");
+	Matrix fMinMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fMin");
+	auto fMin = fMinMat.getElement(0, 0);
+	Matrix fMaxMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fMax");
+	auto fMax = fMaxMat.getElement(0, 0);
+	Matrix fResMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fRes");
+	int fRes = fResMat.getElement(0, 0);
 	auto start = std::chrono::high_resolution_clock::now();
 	//d.print();
-	Vector harmonics(50);
+	Vector harmonics(harmonicsMat.getColumns());
 	harmonics.allocate();
 	for (int i = 0; i < harmonics.getRows(); ++i) {
-		harmonics.getCMatrix().elements[i] = i + 1;
+		harmonics.getCMatrix().elements[i] = harmonicsMat.getElement(0,i);
 	}
-
-	harmReCUDA(d, 49.9 * (2 * M_PI), 50.1 * (2 * M_PI), 110, fs, harmonics);
-
+	try{
+	harmReCUDA(data, fMin, fMax, fRes, fs, harmonics);
+	}
+	catch (std::exception e) {
+		printf("%s", e.what());
+	}
 	// Record end time
 	auto finish = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapsed = finish - start;
 	std::cout << "Harmonic removal execution time: " << elapsed.count() << " seconds" << std::endl;
-
-	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\out.mat",d);
-	d.deallocate();
+	Matrix time(1, 1, Matrix::M_ALLOCATE);
+	time.setElement(elapsed.count(), 0, 0);
+	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\runtimePerformance.mat","elapsed", time);
+	data.deallocate();
 
 
 

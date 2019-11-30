@@ -15,7 +15,10 @@ public:
 	virtual void copyFromDevice(const Matrix_d& src);
 	virtual void GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta);
 	virtual void GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB);
-	virtual void print(int rows = 10, int columns = 5) override;
-	virtual void print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) override;
+	virtual void GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta);
+	virtual void GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB);
+	virtual void getSubMatrix(Matrix_d& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const;
+	void print(int rows = 10, int columns = 5) const override;
+	void print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const override;
 };
 

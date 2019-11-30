@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HarmReCUDA", "HarmReCUDA_vs2019.vcxproj", "{81C70247-1C3F-4E25-9CF6-043F5D3B29DC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HarmReMEX", "..\HarmReMEX\HarmReMEX.vcxproj", "{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,12 +19,6 @@ Global
 		{81C70247-1C3F-4E25-9CF6-043F5D3B29DC}.Release|x64.ActiveCfg = Release|x64
 		{81C70247-1C3F-4E25-9CF6-043F5D3B29DC}.Release|x64.Build.0 = Release|x64
 		{81C70247-1C3F-4E25-9CF6-043F5D3B29DC}.Release|x86.ActiveCfg = Release|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Debug|x64.ActiveCfg = Debug|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Debug|x64.Build.0 = Debug|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Debug|x86.ActiveCfg = Debug|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Release|x64.ActiveCfg = Release|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Release|x64.Build.0 = Release|x64
-		{2FA9C0BB-4CF4-42AB-B937-D65F9C7E0ABD}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

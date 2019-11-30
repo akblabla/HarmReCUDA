@@ -23,7 +23,7 @@
     <ClCompile Include="matlabInterface.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
-    <ClCompile Include="ParabularSearch.cpp" />
+    <ClCompile Include="parabularSearch.cpp" />
     <ClCompile Include="subtractionSearch.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector_d.cpp" />
@@ -67,7 +67,8 @@
     <ClInclude Include="matlabInterface.hpp" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="Matrix_d.hpp" />
-    <ClInclude Include="ParabularSearch.hpp" />
+    <ClInclude Include="parabularSearch.hpp" />
+    <ClInclude Include="parabularSearchDefinitions.h" />
     <ClInclude Include="subtractionSearch.h" />
     <ClInclude Include="Vector.hpp" />
     <ClInclude Include="Vector_d.hpp" />
@@ -79,7 +80,7 @@
     <CudaCompile Include="blackmanWindow_cuda.cu" />
     <CudaCompile Include="elementWiseDivision.cu" />
     <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
-    <CudaCompile Include="findHighestEnergyIndices_cuda.cu" />
+    <CudaCompile Include="findHighestEnergyFrequencies_cuda.cu" />
     <CudaCompile Include="findMaximum_cuda.cu" />
     <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
     <CudaCompile Include="partialMatrixSummation_cuda.cu" />

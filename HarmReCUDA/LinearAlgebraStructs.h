@@ -4,4 +4,5 @@ struct matrix {
 	double* elements;
 	int rows;
 	int columns;
+	int ld;
 };

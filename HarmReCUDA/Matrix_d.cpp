@@ -1,5 +1,6 @@
 #include "Matrix_d.hpp"
 #include <cuda_runtime.h>
+#include <algorithm>
 #include <exception>
 #include <iostream>
 #include "cublas_v2.h"
@@ -128,11 +129,11 @@ void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& 
 	int k = B.getRows();
 	int k2;
 	const double* A_ = A.getCMatrix().elements;
-	int lda = A.getRows();
+	int lda = A.getLeadingDimension();
 	const double* B_ = B.getCMatrix().elements;
-	int ldb = B.getRows();
+	int ldb = B.getLeadingDimension();
 	double* C_ = _Cmatrix.elements;
-	int ldc = getRows();
+	int ldc = getLeadingDimension();
 
 	switch (transposeA)
 	{
@@ -181,7 +182,102 @@ void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& 
 	}
 }
 
-void Matrix_d::print(int rows, int columns)
+void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta)
+{
+	matrixTranspose transposeA = NO_TRANS;
+	matrixTranspose transposeB = NO_TRANS;
+	GeneralMatrixToMatrixAddition(A, B, alpha, beta, transposeA, transposeB);
+}
+
+void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB)
+{
+	cublasStatus_t stat;
+	cublasHandle_t handle;
+	stat = cublasCreate(&handle);
+	cublasOperation_t transa;
+	cublasOperation_t transb;
+	int m, n, m2, n2;
+
+	const double* A_ = A.getCMatrix().elements;
+	int lda = A.getLeadingDimension();
+	const double* B_ = B.getCMatrix().elements;
+	int ldb = B.getLeadingDimension();
+	double* C_ = _Cmatrix.elements;
+	int ldc = getLeadingDimension();
+
+
+	switch (transposeA)
+	{
+	case AMatrix::NO_TRANS:
+		transa = CUBLAS_OP_N;
+		m = A.getRows();
+		n = A.getColumns();
+		break;
+	case AMatrix::TRANS:
+		transa = CUBLAS_OP_T;
+		m = A.getColumns();
+		n = A.getRows();
+		break;
+	default:
+		break;
+	}
+	switch (transposeB)
+	{
+	case AMatrix::NO_TRANS:
+		transb = CUBLAS_OP_N;
+		m2 = B.getRows();
+		n2 = B.getColumns();
+		break;
+	case AMatrix::TRANS:
+		transb = CUBLAS_OP_T;
+		m2 = B.getColumns();
+		n2 = B.getRows();
+		break;
+	default:
+		break;
+	}
+
+	if ((m != m2)|| (n != n2)) {
+		throw std::exception("Matrix addition failed: Incompatible matrix dimensions");
+		return;
+	}
+
+	stat = cublasDgeam(handle, transa, transb, m, n, &alpha, A_, lda, &beta, B_, ldb, C_, ldc);
+	cublasDestroy(handle);
+
+	if (stat != CUBLAS_STATUS_SUCCESS) {
+		throw std::exception(_cudaGetErrorEnum(stat));
+		return;
+	}
+}
+
+void Matrix_d::getSubMatrix(Matrix_d& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const
+{
+	//treat negative numbers as uncapped
+	if (rowsEnd < 0) {
+		rowsEnd = getRows();
+	}
+	else {
+		rowsEnd++;
+	}
+	if (columnsEnd < 0) {
+		columnsEnd = getColumns();
+	}
+	else {
+		columnsEnd++;
+	}
+	rowsStart = std::min(getRows(), rowsStart);
+	rowsEnd = std::min(getRows(), rowsEnd);
+	columnsStart = std::min(getColumns(), columnsStart);
+	columnsEnd = std::min(getColumns(), columnsEnd);
+
+	Matrix_d result(rowsEnd - rowsStart, columnsEnd - columnsStart, AMatrix::M_NO_INIT);
+	result._Cmatrix.elements = _Cmatrix.elements + (rowsStart + columnsStart * _Cmatrix.ld);
+	result._Cmatrix.ld = _Cmatrix.ld;
+	dest = result;
+}
+
+void Matrix_d::print(int rows, int columns) const
 {
 	const Matrix_d& m = *this;
 	Matrix cpuMatrix(m,matrixInitialisation::M_ASSIGN);
@@ -189,7 +285,7 @@ void Matrix_d::print(int rows, int columns)
 	cpuMatrix.deallocate();
 }
 
-void Matrix_d::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
+void Matrix_d::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const
 {
 	const Matrix_d& m = *this;
 	Matrix cpuMatrix(m, matrixInitialisation::M_ASSIGN);
