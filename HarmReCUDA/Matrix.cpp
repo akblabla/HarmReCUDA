@@ -61,12 +61,12 @@ void Matrix::deallocate()
 
 double Matrix::getElement(int row, int column) const
 {
-	return _Cmatrix.elements[column *getLeadingDimension()+ row];
+	return _Cmatrix.elements[MATRIX_INDEX(row, column, _Cmatrix)];
 }
 
 void Matrix::setElement(double value, int row, int column)
 {
-	_Cmatrix.elements[column * getLeadingDimension() + row] = value;
+	_Cmatrix.elements[MATRIX_INDEX(row, column, _Cmatrix)] = value;
 }
 
 void Matrix::getSubMatrix(Matrix& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const

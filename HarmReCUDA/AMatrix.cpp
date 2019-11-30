@@ -4,6 +4,7 @@ AMatrix::AMatrix(int rows, int columns)
 	_Cmatrix.columns = columns;
 	_Cmatrix.rows = rows;
 	_Cmatrix.ld = rows;
+	_Cmatrix.transposed = false;
 }
 AMatrix::~AMatrix()
 {
@@ -35,4 +36,17 @@ long AMatrix::getElementsCount() const
 bool AMatrix::isAllocated() const
 {
 	return _allocated;
+}
+
+void AMatrix::transpose()
+{
+	const auto tempRows = _Cmatrix.rows;
+	_Cmatrix.rows = _Cmatrix.columns;
+	_Cmatrix.columns = tempRows;
+	_Cmatrix.transposed = !_Cmatrix.transposed;
+}
+
+bool AMatrix::isTransposed() const
+{
+	return _Cmatrix.transposed;
 }

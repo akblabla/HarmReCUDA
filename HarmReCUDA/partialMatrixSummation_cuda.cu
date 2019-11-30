@@ -9,11 +9,11 @@ void partialMatrixSummation_kernel(matrix dest_d, matrix src_d, unsigned int row
 	int destColumnIndex = i / dest_d.rows;
 	int destRowIndex = i % dest_d.rows;
 	if (i< dest_d.rows* dest_d.columns){ //don't write outside matrix
-		dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d.ld)] = 0;
+		dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d)] = 0;
 		for (int srcRowIndex = rowFactor * destRowIndex; srcRowIndex < rowFactor * (destRowIndex + 1); ++srcRowIndex) {
 			for (int srcColumnIndex = columnFactor * destColumnIndex; srcColumnIndex < columnFactor * (destColumnIndex + 1); ++srcColumnIndex) {
 
-				dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d.ld)] += src_d.elements[MATRIX_INDEX(srcRowIndex, srcColumnIndex, src_d.ld)];
+				dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d)] += src_d.elements[MATRIX_INDEX(srcRowIndex, srcColumnIndex, src_d)];
 			}
 		}
 	}

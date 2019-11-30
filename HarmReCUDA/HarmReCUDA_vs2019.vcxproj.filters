@@ -66,9 +66,6 @@
     <ClCompile Include="Vector.cpp">
       <Filter>C++Interface\LinearAlgebra\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="GenerateProjectionMatrix_d.cpp">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClCompile>
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp">
       <Filter>C++Interface\Controller\SearchAlgorithms\FindHighestEnergyFundamentals</Filter>
     </ClCompile>
@@ -96,6 +93,12 @@
     </ClCompile>
     <ClCompile Include="blackmanWindow_d.cpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateDesignMatrix_d.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="moorePenroseInversion.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +207,6 @@
     <ClInclude Include="Matrix_d.hpp">
       <Filter>C++Interface\LinearAlgebra\Matrix_d</Filter>
     </ClInclude>
-    <ClInclude Include="GenerateProjectionMatrix_d.hpp">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
-    </ClInclude>
     <ClInclude Include="HarmReCUDA.hpp">
       <Filter>C++Interface\Controller\HarmReCUDA</Filter>
     </ClInclude>
@@ -228,11 +228,14 @@
     <ClInclude Include="blackmanWindow_d.hpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow</Filter>
     </ClInclude>
+    <ClInclude Include="GenerateDesignMatrix_d.hpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="moorePenroseInversion.h">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="GenerateProjectionMatrix_cuda.cu">
-      <Filter>CUDAKernels</Filter>
-    </CudaCompile>
     <CudaCompile Include="SquareElements_cuda.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
@@ -252,6 +255,9 @@
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
     <CudaCompile Include="elementWiseDivision.cu">
+      <Filter>CUDAKernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="GenerateDesignMatrix_cuda.cu">
       <Filter>CUDAKernels</Filter>
     </CudaCompile>
   </ItemGroup>

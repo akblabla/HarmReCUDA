@@ -112,13 +112,6 @@ void Matrix_d::copyFromDevice(const Matrix_d& src)
 
 void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta)
 {
-	matrixTranspose transposeA = NO_TRANS;
-	matrixTranspose transposeB = NO_TRANS;
-	GeneralMatrixToMatrixMultiply(A, B, alpha, beta, transposeA, transposeB);
-}
-
-void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB)
-{
 	cublasStatus_t stat;
 	cublasHandle_t handle;
 	stat = cublasCreate(&handle);
@@ -135,32 +128,28 @@ void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& 
 	double* C_ = _Cmatrix.elements;
 	int ldc = getLeadingDimension();
 
-	switch (transposeA)
+	n = B.getColumns();
+	k = B.getRows();
+	m = A.getRows();
+	k2 = A.getColumns();
+	switch (A.isTransposed())
 	{
-	case AMatrix::NO_TRANS:
+	case false:
 		transa = CUBLAS_OP_N;
-		m = A.getRows();
-		k2 = A.getColumns();
 		break;
-	case AMatrix::TRANS:
+	case true:
 		transa = CUBLAS_OP_T;
-		m = A.getColumns();
-		k2 = A.getRows();
 		break;
 	default:
 		break;
 	}
-	switch (transposeB)
+	switch (B.isTransposed())
 	{
-	case AMatrix::NO_TRANS:
+	case false:
 		transb = CUBLAS_OP_N;
-		n = B.getColumns();
-		k = B.getRows();
 		break;
-	case AMatrix::TRANS:
+	case true:
 		transb = CUBLAS_OP_T;
-		n = B.getRows();
-		k = B.getColumns();
 		break;
 	default:
 		break;
@@ -184,13 +173,6 @@ void Matrix_d::GeneralMatrixToMatrixMultiply(const Matrix_d& A, const Matrix_d& 
 
 void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta)
 {
-	matrixTranspose transposeA = NO_TRANS;
-	matrixTranspose transposeB = NO_TRANS;
-	GeneralMatrixToMatrixAddition(A, B, alpha, beta, transposeA, transposeB);
-}
-
-void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& B, double alpha, double beta, matrixTranspose transposeA, matrixTranspose transposeB)
-{
 	cublasStatus_t stat;
 	cublasHandle_t handle;
 	stat = cublasCreate(&handle);
@@ -206,32 +188,28 @@ void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& 
 	int ldc = getLeadingDimension();
 
 
-	switch (transposeA)
+	m = A.getRows();
+	n = A.getColumns();
+	m2 = B.getRows();
+	n2 = B.getColumns();
+	switch (A.isTransposed())
 	{
-	case AMatrix::NO_TRANS:
+	case false:
 		transa = CUBLAS_OP_N;
-		m = A.getRows();
-		n = A.getColumns();
 		break;
-	case AMatrix::TRANS:
+	case true:
 		transa = CUBLAS_OP_T;
-		m = A.getColumns();
-		n = A.getRows();
 		break;
 	default:
 		break;
 	}
-	switch (transposeB)
+	switch (B.isTransposed())
 	{
-	case AMatrix::NO_TRANS:
+	case false:
 		transb = CUBLAS_OP_N;
-		m2 = B.getRows();
-		n2 = B.getColumns();
 		break;
-	case AMatrix::TRANS:
+	case true:
 		transb = CUBLAS_OP_T;
-		m2 = B.getColumns();
-		n2 = B.getRows();
 		break;
 	default:
 		break;

@@ -11,7 +11,7 @@ void elementWiseMultiplication_kernel(matrix dest_d, matrix src_d, unsigned int 
 	int srcColumnIndex = (((i / rowFactor) / columnFactor) / src_d.rows)% src_d.columns;
 	int srcRowIndex = ((i / rowFactor) % src_d.rows);
 	if (i/ dest_d.rows <  dest_d.columns) { //don't write outside matrix
-		dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d.ld)] *= src_d.elements[MATRIX_INDEX(srcRowIndex, srcColumnIndex, src_d.ld)];
+		dest_d.elements[MATRIX_INDEX(destRowIndex, destColumnIndex, dest_d)] *= src_d.elements[MATRIX_INDEX(srcRowIndex, srcColumnIndex, src_d)];
 	}
 }
 /**

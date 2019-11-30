@@ -17,12 +17,13 @@
     <ClCompile Include="AMatrix.cpp" />
     <ClCompile Include="blackmanWindow_d.cpp" />
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp" />
-    <ClCompile Include="GenerateProjectionMatrix_d.cpp" />
+    <ClCompile Include="GenerateDesignMatrix_d.cpp" />
     <ClCompile Include="HarmReCUDA.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matlabInterface.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
+    <ClCompile Include="moorePenroseInversion.cpp" />
     <ClCompile Include="parabularSearch.cpp" />
     <ClCompile Include="subtractionSearch.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -32,7 +33,7 @@
     <ClInclude Include="AMatrix.hpp" />
     <ClInclude Include="blackmanWindow_d.hpp" />
     <ClInclude Include="findHighestEnergyFundamentals_d.hpp" />
-    <ClInclude Include="GenerateProjectionMatrix_d.hpp" />
+    <ClInclude Include="GenerateDesignMatrix_d.hpp" />
     <ClInclude Include="HarmReCUDA.hpp" />
     <ClInclude Include="inc\drvapi_error_string.h" />
     <ClInclude Include="inc\dynlink_d3d10.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="matlabInterface.hpp" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="Matrix_d.hpp" />
+    <ClInclude Include="moorePenroseInversion.h" />
     <ClInclude Include="parabularSearch.hpp" />
     <ClInclude Include="parabularSearchDefinitions.h" />
     <ClInclude Include="subtractionSearch.h" />
@@ -82,7 +84,7 @@
     <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
     <CudaCompile Include="findHighestEnergyFrequencies_cuda.cu" />
     <CudaCompile Include="findMaximum_cuda.cu" />
-    <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
+    <CudaCompile Include="GenerateDesignMatrix_cuda.cu" />
     <CudaCompile Include="partialMatrixSummation_cuda.cu" />
     <CudaCompile Include="SquareElements_cuda.cu" />
   </ItemGroup>

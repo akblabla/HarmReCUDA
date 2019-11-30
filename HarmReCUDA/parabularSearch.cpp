@@ -62,6 +62,7 @@ void parabularSearch(Matrix_d& freqOut_d, const Matrix_d& energies_d, const Vect
 	slope_d.print(0, -1, 100, 110);
 	printf("\n");
 #endif // DEBUG
-	freqOut_d.GeneralMatrixToMatrixAddition(freq_d, slope_d, 1.0, -0.5* deltaFundamentalFrequency,Matrix_d::NO_TRANS, Matrix_d::TRANS);
+	slope_d.transpose();
+	freqOut_d.GeneralMatrixToMatrixAddition(freq_d, slope_d, 1.0, -0.5* deltaFundamentalFrequency);
 
 }

@@ -21,6 +21,8 @@ public:
 	virtual void deallocate() = 0;
 	virtual void print(int rows = 16, int columns = 8) const = 0;
 	virtual void print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const = 0;
+	virtual void transpose();
+	virtual bool isTransposed() const;
 protected:
 	matrix _Cmatrix;
 	bool _allocated = false;

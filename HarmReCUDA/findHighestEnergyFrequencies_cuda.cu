@@ -14,7 +14,7 @@ void findHighestEnergyFrequencies_kernel(matrix highestEnergies_d, matrix centra
 	int maxIndex = 0;
 	if (highestEnergiesColumnIndex < highestEnergies_d.columns) { //don't write outside matrix
 		for (int energiesRowIndex = 0; energiesRowIndex < energies_d.rows; energiesRowIndex++) {
-			double energy = energies_d.elements[MATRIX_INDEX(energiesRowIndex, energiesColumnIndex, energies_d.ld)];
+			double energy = energies_d.elements[MATRIX_INDEX(energiesRowIndex, energiesColumnIndex, energies_d)];
 			if (energy > maxEnergy) {
 				maxEnergy = energy;
 				maxIndex = energiesRowIndex;
@@ -28,7 +28,7 @@ void findHighestEnergyFrequencies_kernel(matrix highestEnergies_d, matrix centra
 		centralFreq_d.elements[centralFreqColumnIndex] = freq_d.elements[centralFreqIndex];
 
 		for (int highestEnergiesRowIndex = 0; highestEnergiesRowIndex < highestEnergies_d.rows; highestEnergiesRowIndex++) {
-			highestEnergies_d.elements[MATRIX_INDEX(highestEnergiesRowIndex, highestEnergiesColumnIndex, highestEnergies_d.ld)] = energies_d.elements[MATRIX_INDEX(highestEnergiesRowIndex+centralFreqIndex-SEARCH_WIDTH, highestEnergiesColumnIndex, energies_d.ld)];
+			highestEnergies_d.elements[MATRIX_INDEX(highestEnergiesRowIndex, highestEnergiesColumnIndex, highestEnergies_d)] = energies_d.elements[MATRIX_INDEX(highestEnergiesRowIndex+centralFreqIndex-SEARCH_WIDTH, highestEnergiesColumnIndex, energies_d)];
 		}
 	}
 }
