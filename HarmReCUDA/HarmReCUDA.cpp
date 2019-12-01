@@ -103,7 +103,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 			blackmanWindow_d(designMatrix_d);
 
 			Matrix_d harmonicAmplitudesToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
-			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, freqsSolved, freqsSolved + partitionFreqCount-1, 0, -1);
+			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, 2* harmonics.getRows() * freqsSolved, 2* harmonics.getRows() * (freqsSolved + partitionFreqCount)-1, 0, -1);
 			designMatrix_d.transpose();
 			harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
 			designMatrix_d.deallocate();
