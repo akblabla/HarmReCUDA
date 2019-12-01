@@ -67,6 +67,7 @@ int main() {
 	Matrix time(1, 1, Matrix::M_ALLOCATE);
 	time.setElement(elapsed.count(), 0, 0);
 	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\runtimePerformance.mat","elapsed", time);
+	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\out.mat", "data", data);
 	data.deallocate();
 
 

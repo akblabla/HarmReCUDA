@@ -3,7 +3,7 @@
 #include "LinearAlgebraStructs.h"
 
 __global__
-void partialMatrixSummation_kernel(matrix dest_d, matrix src_d, unsigned int rowFactor, unsigned int columnFactor)
+void partialMatrixSummation_kernel(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	int destColumnIndex = i / dest_d.rows;

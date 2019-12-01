@@ -27,12 +27,12 @@ void findHighestEnergyFundamentals_d(Vector_d& fundamentalFrequencies_d, const M
 	squareElements_d(harmonicEnergies_d.getCMatrix());
 	#ifdef _DEBUG
 	printf("Harmonic Energies\n");
-	harmonicEnergies_d.print(0,10, 100, 110);
+	harmonicEnergies_d.print(0,-1, 100, 110);
 	printf("\n");
 	#endif // DEBUG
 
-	Matrix_d energies_d(harmonicEnergies_d.getRows()/ (2 * harmonicCount), harmonicEnergies_d.getColumns(), Matrix::matrixInitialisation::M_ALLOCATE);
-	partialMatrixSummation_cuda(energies_d.getCMatrix(), harmonicEnergies_d.getCMatrix(), (2 * (unsigned int) harmonicCount), 1);
+	Matrix_d energies_d(freq_d.getElementsCount(), harmonicEnergies_d.getColumns(), Matrix::matrixInitialisation::M_ALLOCATE);
+	partialMatrixSummation_cuda(energies_d.getCMatrix(), harmonicEnergies_d.getCMatrix(), (unsigned int) (2*harmonicCount), 1);
 	Matrix energies(energies_d, AMatrix::M_ASSIGN);
 	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\modelEnergy.mat", "modelEnergy", energies);
 	#ifdef _DEBUG
@@ -56,11 +56,6 @@ void findHighestEnergyFundamentals_d(Vector_d& fundamentalFrequencies_d, const M
 	#endif
 	Matrix freq(freq_d, AMatrix::M_ASSIGN);
 	double deltaFundamentalFrequency = freq.getElement(1, 0) - freq.getElement(0, 0);
-	#ifdef _DEBUG
-		printf("delta fundamental frequency\n");
-		printf("%f", deltaFundamentalFrequency);
-		printf("\n");
-	#endif // DEBUG
 	parabularSearch(fundamentalFrequencies_d, highestEnergy_d, centralFreq_d, deltaFundamentalFrequency);
 	harmonicEnergies_d.deallocate();
 	energies_d.deallocate();

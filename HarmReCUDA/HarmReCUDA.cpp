@@ -101,21 +101,23 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 			//blackmanWindow_d(projectionMatrix_d);
 
 			Matrix_d harmonicAmplitudesToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
-			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, freqsSolved, freqsSolved + partitionFreqCount-1, 0, -1);
+			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, freqsSolved* harmonics.getRows()*2, (freqsSolved + partitionFreqCount-1)* harmonics.getRows()*2, 0, -1);
 
-			harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
+			harmonicAmplitudesToBeSolved_d.GeneralMatrixToMatrixMultiply(projectionMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
 			projectionMatrix_d.deallocate();
 			if (partitionCount > 1)
 			printf(".");
 		}
 	}
 	printf(" done!\n\n");
-	Vector_d maxFundamentalFreq_d(data_d.getColumns() , Matrix::M_ALLOCATE);
-	findHighestEnergyFundamentals_d(maxFundamentalFreq_d, harmonicAmplitudes_d, fundamentalFrequencies_d, harmonics_d.getRows());
 	#ifdef _DEBUG
 	printf("Amplitudes\n");
-	harmonicAmplitudes_d.print(0, 50, 0, 5);
+	harmonicAmplitudes_d.print(0, -1, 0, 5);
 	printf("\n");
+#endif
+	Vector_d maxFundamentalFreq_d(data_d.getColumns() , Matrix::M_ALLOCATE);
+	findHighestEnergyFundamentals_d(maxFundamentalFreq_d, harmonicAmplitudes_d, fundamentalFrequencies_d, harmonics_d.getRows());
+#ifdef _DEBUG
 	printf("fundamental frequencies found\n");
 	maxFundamentalFreq_d.print(0,-1, 0, -1);
 	printf("\n");
