@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include "findHighestEnergyFundamentals_d.hpp"
 #include "blackmanWindow_d.hpp"
-//#include "moorePenroseInversion.h"
+#include "moorePenroseInversion.h"
 
 #define GPU_MEMORY_SLACK 10000000
 extern "C" void elementWiseMultiplication_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor);
@@ -70,7 +70,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	Matrix_d harmonicAmplitudes_d(harmonics.getRows() * fundamentalFrequencyResolution * 2, data.getColumns(), Matrix::M_ALLOCATE);
 	{
 		cudaMemGetInfo(&free, &total);
-		const size_t GPUMemoryForProjectionPerTestFreq = harmonics.getRows() * 2 * time_d.getElementsCount() * sizeof(double);
+		const size_t GPUMemoryForProjectionPerTestFreq = (2*harmonics.getRows() * 2 * harmonics.getRows() * 2 + 3*harmonics.getRows() * 2 * time_d.getElementsCount()) * sizeof(double);
 		const size_t GPUMemoryForProjection = free - GPU_MEMORY_SLACK;
 		const size_t partitionCount = fundamentalFrequencies_d.getElementsCount() * GPUMemoryForProjectionPerTestFreq / GPUMemoryForProjection + 1;
 		const size_t partitionFreqCount = fundamentalFrequencies_d.getElementsCount() / partitionCount;
@@ -94,7 +94,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 
 
 			generateDesignMatrix_d(designMatrix_d, fundamentalFrequenciesToBeSolved_d, time_d, harmonics_d);
-			//moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
+			moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
 	#ifdef _DEBUG
 			printf("Projection Matrix\n");
 			designMatrix_d.print();
