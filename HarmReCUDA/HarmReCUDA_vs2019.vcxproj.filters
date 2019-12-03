@@ -100,6 +100,9 @@
     <ClCompile Include="moorePenroseInversion.cpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
     </ClCompile>
+    <ClCompile Include="temp.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\drvapi_error_string.h">
@@ -232,6 +235,9 @@
       <Filter>C++Interface\Controller\GenerateProjectionMatrix</Filter>
     </ClInclude>
     <ClInclude Include="moorePenroseInversion.h">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="temp.h">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
     </ClInclude>
   </ItemGroup>

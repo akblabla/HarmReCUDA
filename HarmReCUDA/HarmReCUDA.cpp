@@ -70,9 +70,9 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	Matrix_d harmonicAmplitudes_d(harmonics.getRows() * fundamentalFrequencyResolution * 2, data.getColumns(), Matrix::M_ALLOCATE);
 	{
 		cudaMemGetInfo(&free, &total);
-		const size_t GPUMemoryForProjectionPerTestFreq = (2*harmonics.getRows() * 2 * harmonics.getRows() * 2 + 3*harmonics.getRows() * 2 * time_d.getElementsCount()) * sizeof(double);
+		const size_t GPUMemoryForProjectionPerTestFreq = (2*harmonics.getRows() * 2 * harmonics.getRows() * 2 + 5*harmonics.getRows() * 2 * time_d.getElementsCount()) * sizeof(double);
 		const size_t GPUMemoryForProjection = free - GPU_MEMORY_SLACK;
-		const size_t partitionCount = fundamentalFrequencies_d.getElementsCount() * GPUMemoryForProjectionPerTestFreq / GPUMemoryForProjection + 1;
+		const size_t partitionCount = (fundamentalFrequencies_d.getElementsCount() * GPUMemoryForProjectionPerTestFreq) / GPUMemoryForProjection + 1;
 		const size_t partitionFreqCount = fundamentalFrequencies_d.getElementsCount() / partitionCount;
 
 		if (partitionCount > 1) {
@@ -103,7 +103,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 			blackmanWindow_d(designMatrix_d);
 
 			Matrix_d harmonicAmplitudesToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
-			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, 2* harmonics.getRows() * freqsSolved, 2* harmonics.getRows() * (freqsSolved + partitionFreqCount)-1, 0, -1);
+			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, 2* harmonics.getRows() * freqsSolved, 2* harmonics.getRows() * (freqsSolved + partitionFreqCount-1), 0, -1);
 			designMatrix_d.transpose();
 			harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
 			designMatrix_d.deallocate();

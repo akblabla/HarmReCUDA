@@ -23,6 +23,7 @@
 #include "HarmReCUDA.hpp"
 #include "Matrix.hpp"
 #include "Vector.hpp"
+#include "temp.h"
 #include <exception>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -36,7 +37,7 @@
 int main() {
 
 
-
+	temp(0, 0);
 	const double fs = 31250;
 
 	Matrix data = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat","data");

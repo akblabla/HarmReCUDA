@@ -26,6 +26,7 @@
     <ClCompile Include="moorePenroseInversion.cpp" />
     <ClCompile Include="parabularSearch.cpp" />
     <ClCompile Include="subtractionSearch.cpp" />
+    <ClCompile Include="temp.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector_d.cpp" />
   </ItemGroup>
@@ -72,6 +73,7 @@
     <ClInclude Include="parabularSearch.hpp" />
     <ClInclude Include="parabularSearchDefinitions.h" />
     <ClInclude Include="subtractionSearch.h" />
+    <ClInclude Include="temp.h" />
     <ClInclude Include="Vector.hpp" />
     <ClInclude Include="Vector_d.hpp" />
   </ItemGroup>
