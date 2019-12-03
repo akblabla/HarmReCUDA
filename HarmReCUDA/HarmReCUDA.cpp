@@ -70,7 +70,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	Matrix_d harmonicAmplitudes_d(harmonics.getRows() * fundamentalFrequencyResolution * 2, data.getColumns(), Matrix::M_ALLOCATE);
 	{
 		cudaMemGetInfo(&free, &total);
-		const size_t GPUMemoryForProjectionPerTestFreq = (2*harmonics.getRows() * 2 * harmonics.getRows() * 2 + 5*harmonics.getRows() * 2 * time_d.getElementsCount()) * sizeof(double);
+		const size_t GPUMemoryForProjectionPerTestFreq = (2*harmonics.getRows() * 2 * harmonics.getRows() * 2 + harmonics.getRows() * 2 * time_d.getElementsCount()) * sizeof(double);
 		const size_t GPUMemoryForProjection = free - GPU_MEMORY_SLACK;
 		const size_t partitionCount = (fundamentalFrequencies_d.getElementsCount() * GPUMemoryForProjectionPerTestFreq) / GPUMemoryForProjection + 1;
 		const size_t partitionFreqCount = fundamentalFrequencies_d.getElementsCount() / partitionCount;
@@ -89,23 +89,19 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 			Matrix_d designMatrix_d(data.getRows(),harmonics.getRows() * fundamentalFrequenciesToBeSolved_d.getElementsCount() * 2, Matrix::M_ALLOCATE);
 
 
-			//Matrix harmonicAmplitudes(projectionMatrix_d.getRows(), data.getColumns(), Matrix::M_ALLOCATE);
-
-
-
 			generateDesignMatrix_d(designMatrix_d, fundamentalFrequenciesToBeSolved_d, time_d, harmonics_d);
-			moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
+//			moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
 	#ifdef _DEBUG
 			printf("Projection Matrix\n");
 			designMatrix_d.print();
 			printf("\n");
 	#endif
-			blackmanWindow_d(designMatrix_d);
+			//blackmanWindow_d(designMatrix_d);
 
 			Matrix_d harmonicAmplitudesToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
 			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, 2* harmonics.getRows() * freqsSolved, 2* harmonics.getRows() * (freqsSolved + partitionFreqCount-1), 0, -1);
 			designMatrix_d.transpose();
-			harmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
+			harmonicAmplitudesToBeSolved_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
 			designMatrix_d.deallocate();
 			if (partitionCount > 1)
 			printf(".");
@@ -116,7 +112,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	findHighestEnergyFundamentals_d(maxFundamentalFreq_d, harmonicAmplitudes_d, fundamentalFrequencies_d, harmonics_d.getRows());
 	#ifdef _DEBUG
 	printf("Amplitudes\n");
-	harmonicAmplitudes_d.print(0, 50, 0, 5);
+	harmonicAmplitudes_d.print(0, -1, 0, 5);
 	printf("\n");
 	printf("fundamental frequencies found\n");
 	maxFundamentalFreq_d.print(0,-1, 0, -1);
@@ -174,7 +170,7 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 		dataToBeSolved_d.GeneralMatrixToMatrixMultiply(newDesignMatrix_d, newHarmonicAmplitudes_d, -1, 1.0);
 		newDesignMatrix_d.deallocate();
 		ampFilter_d.deallocate();
-		ampFilter_d.deallocate();
+		newHarmonicAmplitudes_d.deallocate();
 		if (partitionCount > 1)
 		printf(".");
 	}

@@ -18,5 +18,6 @@ public:
 	virtual void getSubMatrix(Matrix_d& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const;
 	void print(int rows = 10, int columns = 5) const override;
 	void print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const override;
+	virtual ~Matrix_d();
 };
 

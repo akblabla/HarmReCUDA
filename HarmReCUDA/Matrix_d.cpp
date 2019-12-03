@@ -271,3 +271,8 @@ void Matrix_d::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEn
 	cpuMatrix.deallocate();
 }
 
+Matrix_d::~Matrix_d()
+{
+	deallocate();
+}
+

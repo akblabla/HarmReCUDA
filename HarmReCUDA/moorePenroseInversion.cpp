@@ -6,7 +6,6 @@
 void moorePenroseInversion_d(Matrix_d& designMatrix_d, Vector_d& harmonics_d, Vector_d& fundamentalFrequencies_d)
 {
 	int batchSize = fundamentalFrequencies_d.getElementsCount();
-	Matrix_d designMatrixClone_d(designMatrix_d, AMatrix::M_ASSIGN);
 	double alpha = 1;
 	double beta = 0;
 	int m = designMatrix_d.getRows();
@@ -14,66 +13,69 @@ void moorePenroseInversion_d(Matrix_d& designMatrix_d, Vector_d& harmonics_d, Ve
 	cublasStatus_t stat;
 	cublasHandle_t handle;
 	stat = cublasCreate(&handle);
-	Matrix_d** subDesignMatricesList = new Matrix_d*[batchSize];
+	Matrix_d** subDesignMatricesList_d = new Matrix_d*[batchSize];
 	double** subDesignMatricesElementsList = new double * [batchSize];
+	double** subDesignMatricesElementsList_d;
 
-	Matrix_d** subDesignMatricesCloneList = new Matrix_d * [batchSize];
-	double** subDesignMatricesCloneElementsList = new double* [batchSize];
-
-	Matrix_d** correlationMatricesList = new Matrix_d * [batchSize];
+	Matrix_d** correlationMatricesList_d = new Matrix_d * [batchSize];
 	double** correlationMatrixElementsList = new double * [batchSize];
+	double** correlationMatrixElementsList_d;
 
-	Matrix_d** invCorrelationMatricesList = new Matrix_d * [batchSize];
+	Matrix_d** invCorrelationMatricesList_d = new Matrix_d * [batchSize];
 	double** invCorrelationMatrixElementsList = new double* [batchSize];
+	double** invCorrelationMatrixElementsList_d;
 
 	for (int i = 0; i < batchSize; ++i){
-		subDesignMatricesList[i] = new Matrix_d(n, n,AMatrix::M_ALLOCATE);
-		//designMatrix_d.getSubMatrix(*(subDesignMatricesList[i]), 0, -1, n * i, n * (i + 1)-1);
-		subDesignMatricesElementsList[i] = (subDesignMatricesList[i])->getCMatrix().elements;
+		subDesignMatricesList_d[i] = new Matrix_d(m, n,AMatrix::M_NO_INIT);
+		designMatrix_d.getSubMatrix(*(subDesignMatricesList_d[i]), 0, -1, n * i, n * (i + 1)-1);
+		subDesignMatricesElementsList[i] = (subDesignMatricesList_d[i])->getCMatrix().elements;
+		cudaMalloc((void**)& subDesignMatricesElementsList_d, batchSize * sizeof(double*));
+		cudaMemcpy(subDesignMatricesElementsList_d, subDesignMatricesElementsList, batchSize*sizeof(double*), cudaMemcpyHostToDevice);
 
-		subDesignMatricesCloneList[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
-		//designMatrix_d.getSubMatrix(*(subDesignMatricesCloneList[i]), 0, -1, n * i, n * (i + 1)-1);
-		subDesignMatricesCloneElementsList[i] = (subDesignMatricesCloneList[i])->getCMatrix().elements;
+		correlationMatricesList_d[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
+		correlationMatrixElementsList[i] = (correlationMatricesList_d[i])->getCMatrix().elements;
+		cudaMalloc((void**)& correlationMatrixElementsList_d, batchSize * sizeof(double*));
+		cudaMemcpy(correlationMatrixElementsList_d, correlationMatrixElementsList, batchSize * sizeof(double*), cudaMemcpyHostToDevice);
 
-		correlationMatricesList[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
-		correlationMatrixElementsList[i] = (correlationMatricesList[i])->getCMatrix().elements;
-
-		invCorrelationMatricesList[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
-		invCorrelationMatrixElementsList[i] = invCorrelationMatricesList[i]->getCMatrix().elements;
+		invCorrelationMatricesList_d[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
+		invCorrelationMatrixElementsList[i] = invCorrelationMatricesList_d[i]->getCMatrix().elements;
+		cudaMalloc((void**)& invCorrelationMatrixElementsList_d, batchSize * sizeof(double*));
+		cudaMemcpy(invCorrelationMatrixElementsList_d, invCorrelationMatrixElementsList, batchSize * sizeof(double*), cudaMemcpyHostToDevice);
 	}
 	stat = cublasDgemmBatched(handle,
 		CUBLAS_OP_T,
 		CUBLAS_OP_N,
-		n, n, n,
+		n, n, m,
 		&alpha,
-		(const double**)subDesignMatricesElementsList, subDesignMatricesList[0]->getLeadingDimension(),
-		(const double**)subDesignMatricesCloneElementsList, subDesignMatricesList[0]->getLeadingDimension(),
+		(const double**)subDesignMatricesElementsList_d, subDesignMatricesList_d[0]->getLeadingDimension(),
+		(const double**)subDesignMatricesElementsList_d, subDesignMatricesList_d[0]->getLeadingDimension(),
 		&beta,
-		correlationMatrixElementsList, correlationMatricesList[0]->getLeadingDimension(), batchSize);
+		correlationMatrixElementsList_d, correlationMatricesList_d[0]->getLeadingDimension(), batchSize);
 	if (stat != CUBLAS_STATUS_SUCCESS) {
 		throw std::exception(_cudaGetErrorEnum(stat));
 		return;
 	}
-	/*
-	int* pivotArray;
-
-	auto cudaStat = cudaMalloc((void**)& pivotArray, n * batchSize * sizeof(int));
+	
+	int* pivotArray_d;
+	int pivotArray[5];
+	auto cudaStat = cudaMalloc<int>(& pivotArray_d, n * batchSize * sizeof(int));
 	if (cudaStat != cudaSuccess) {
 		throw std::exception(cudaGetErrorString(cudaStat));
 		return;
 	}
-	int* infoArray;
-	cudaStat = cudaMalloc((void**)& infoArray, n * batchSize * sizeof(int));
+	int* infoArray_d;
+	int infoArray[5];
+	cudaStat = cudaMalloc<int>(&infoArray_d, batchSize * sizeof(int));
 	if (cudaStat != cudaSuccess) {
 		throw std::exception(cudaGetErrorString(cudaStat));
 		return;
 	}
 	stat = cublasDgetrfBatched(handle,
 		n,
-		correlationMatrixElementsList,
-		n,
-		pivotArray,
-		infoArray,
+		correlationMatrixElementsList_d,
+		correlationMatricesList_d[0]->getLeadingDimension(),
+		pivotArray_d,
+		infoArray_d,
 		batchSize);
 	if (stat != CUBLAS_STATUS_SUCCESS) {
 		throw std::exception(_cudaGetErrorEnum(stat));
@@ -81,26 +83,27 @@ void moorePenroseInversion_d(Matrix_d& designMatrix_d, Vector_d& harmonics_d, Ve
 	}
 	stat = cublasDgetriBatched(handle,
 		n,
-		correlationMatrixElementsList,
+		correlationMatrixElementsList_d,
 		n,
-		pivotArray,
-		invCorrelationMatrixElementsList,
+		pivotArray_d,
+		invCorrelationMatrixElementsList_d,
 		n,
-		infoArray,
+		infoArray_d,
 		batchSize);
 
 	if (stat != CUBLAS_STATUS_SUCCESS) {
 		throw std::exception(_cudaGetErrorEnum(stat));
 		return;
-	}*/
-	/*cublasDgemmBatched(handle,
-		cublasOperation_t::CUBLAS_OP_T,
-		cublasOperation_t::CUBLAS_OP_N,
-		n, m, n,
+	}
+	cublasDgemmBatched(handle,
+		CUBLAS_OP_N,
+		CUBLAS_OP_N,
+		m, n, n,
 		&alpha,
-		subDesignMatricesElementsList, m,
-		subDesignMatricesElementsList, m,
+		subDesignMatricesElementsList_d, subDesignMatricesList_d[0]->getLeadingDimension(),
+		invCorrelationMatrixElementsList_d, invCorrelationMatricesList_d[0]->getLeadingDimension(),
 		&beta,
-		correlationMatrixElementsList, n, batchSize);*/
+		subDesignMatricesElementsList_d, subDesignMatricesList_d[0]->getLeadingDimension(), batchSize);
 	cublasDestroy(handle);
+	designMatrix_d.transpose();
 }
