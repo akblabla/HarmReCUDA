@@ -1,4 +1,4 @@
-#include "Matrix.h"
+#include "Matrix.hpp"
 #include <memory>
 #include <iostream>
 #include <algorithm>
@@ -15,6 +15,7 @@ Matrix::Matrix(int rows, int columns, matrixInitialisation initialisation) : AMa
 		break;
 	case matrixInitialisation::M_ASSIGN:
 		allocate();
+		memset(_Cmatrix.elements, 0, getElementsCount() * sizeof(*_Cmatrix.elements));
 		break;
 	default:
 		break;
@@ -58,22 +59,17 @@ void Matrix::deallocate()
 	_allocated = false;
 }
 
-double Matrix::getElement(int row, int column)
+double Matrix::getElement(int row, int column) const
 {
-	return _Cmatrix.elements[column *getRows()+ row];
+	return _Cmatrix.elements[MATRIX_INDEX(row, column, _Cmatrix)];
 }
 
 void Matrix::setElement(double value, int row, int column)
 {
-	_Cmatrix.elements[column * getRows() + row] = value;
+	_Cmatrix.elements[MATRIX_INDEX(row, column, _Cmatrix)] = value;
 }
 
-void Matrix::print(int rows, int columns)
-{
-	print(0, rows, 0, columns);
-}
-
-void Matrix::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
+void Matrix::getSubMatrix(Matrix& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const
 {
 	//treat negative numbers as uncapped
 	if (rowsEnd < 0) {
@@ -81,6 +77,37 @@ void Matrix::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd)
 	}
 	if (columnsEnd < 0) {
 		columnsEnd = getColumns();
+	}
+	rowsStart = std::min(getRows(), rowsStart);
+	rowsEnd = std::min(getRows(), rowsEnd);
+	columnsStart = std::min(getColumns(), columnsStart);
+	columnsEnd = std::min(getColumns(), columnsEnd);
+
+	Matrix result(rowsEnd - rowsStart, columnsEnd - columnsStart, AMatrix::M_NO_INIT);
+	result._Cmatrix.elements = _Cmatrix.elements + (rowsStart + columnsStart * _Cmatrix.ld);
+	result._Cmatrix.ld = _Cmatrix.ld;
+	dest = result;
+}
+
+void Matrix::print(int rows, int columns) const
+{
+	print(0, rows, 0, columns);
+}
+
+void Matrix::print(int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const
+{
+	//treat negative numbers as uncapped
+	if (rowsEnd < 0) {
+		rowsEnd = getRows();
+	}
+	else {
+		rowsEnd++;
+	}
+	if (columnsEnd < 0) {
+		columnsEnd = getColumns();
+	}
+	else {
+		columnsEnd++;
 	}
 	rowsStart = std::min(getRows(), rowsStart);
 	rowsEnd = std::min(getRows(), rowsEnd);

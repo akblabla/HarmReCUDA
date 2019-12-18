@@ -7,8 +7,8 @@ void squareElements_kernel(matrix a_d)
 	int columnIndex = i / a_d.rows;
 	int rowIndex = i % a_d.rows;
 	if (columnIndex < a_d.columns) {//make sure not to write outside of matrix, incase the number of elements did not have a base of 1024
-		double value = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)];
-		a_d.elements[MATRIX_INDEX(rowIndex,columnIndex,a_d.rows)] = value * value;
+		double value = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)];
+		a_d.elements[MATRIX_INDEX(rowIndex,columnIndex,a_d)] = value * value;
 	}
 }
 /**

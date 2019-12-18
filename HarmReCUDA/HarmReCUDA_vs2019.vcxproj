@@ -17,20 +17,25 @@
     <ClCompile Include="AMatrix.cpp" />
     <ClCompile Include="blackmanWindow_d.cpp" />
     <ClCompile Include="findHighestEnergyFundamentals_d.cpp" />
-    <ClCompile Include="GenerateProjectionMatrix_d.cpp" />
+    <ClCompile Include="GenerateDesignMatrix_d.cpp" />
     <ClCompile Include="HarmReCUDA.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="matlabInterface.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix_d.cpp" />
+    <ClCompile Include="moorePenroseInversion.cpp" />
+    <ClCompile Include="parabularSearch.cpp" />
+    <ClCompile Include="approximatePseudoInversion.cpp" />
+    <ClCompile Include="subtractionSearch.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector_d.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AMatrix.h" />
-    <ClInclude Include="blackmanWindow_d.h" />
-    <ClInclude Include="findHighestEnergyFundamentals_d.h" />
-    <ClInclude Include="GenerateProjectionMatrix_d.h" />
-    <ClInclude Include="HarmReCUDA.h" />
+    <ClInclude Include="AMatrix.hpp" />
+    <ClInclude Include="blackmanWindow_d.hpp" />
+    <ClInclude Include="findHighestEnergyFundamentals_d.hpp" />
+    <ClInclude Include="GenerateDesignMatrix_d.hpp" />
+    <ClInclude Include="HarmReCUDA.hpp" />
     <ClInclude Include="inc\drvapi_error_string.h" />
     <ClInclude Include="inc\dynlink_d3d10.h" />
     <ClInclude Include="inc\dynlink_d3d11.h" />
@@ -61,19 +66,27 @@
     <ClInclude Include="inc\rendercheck_gl.h" />
     <ClInclude Include="inc\rendercheck_gles.h" />
     <ClInclude Include="inc\timer.h" />
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Matrix_d.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="Vector_d.h" />
+    <ClInclude Include="matlabInterface.hpp" />
+    <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="Matrix_d.hpp" />
+    <ClInclude Include="moorePenroseInversion.h" />
+    <ClInclude Include="parabularSearch.hpp" />
+    <ClInclude Include="parabularSearchDefinitions.h" />
+    <ClInclude Include="approximatePseudoInversion.h" />
+    <ClInclude Include="subtractionSearch.h" />
+    <ClInclude Include="Vector.hpp" />
+    <ClInclude Include="Vector_d.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LinearAlgebraStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="blackmanWindow_cuda.cu" />
+    <CudaCompile Include="elementWiseDivision.cu" />
     <CudaCompile Include="elementWiseMultiplication_cuda.cu" />
+    <CudaCompile Include="findHighestEnergyFrequencies_cuda.cu" />
     <CudaCompile Include="findMaximum_cuda.cu" />
-    <CudaCompile Include="GenerateProjectionMatrix_cuda.cu" />
+    <CudaCompile Include="GenerateDesignMatrix_cuda.cu" />
     <CudaCompile Include="partialMatrixSummation_cuda.cu" />
     <CudaCompile Include="SquareElements_cuda.cu" />
   </ItemGroup>
@@ -112,18 +125,18 @@
     <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
-    <OutDir>../../bin/win64/$(Configuration)/</OutDir>
+    <OutDir>./bin/win64/$(Configuration)/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Program Files (x86)\Matlab\extern\include;./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_MBCS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Program Files (x86)\Matlab\extern\include;./Source;./Headers;./;$(CudaToolkitDir)/include;../../common/inc;./inc;./mex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cublas.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(CudaToolkitLibDir);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cublas.lib;libmx.lib;libmex.lib;libmat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Program Files %28x86%29\Matlab\extern\lib\win64\microsoft\;%(AdditionalLibraryDirectories);$(CudaToolkitLibDir)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)/HarmReCUDA.exe</OutputFile>
     </Link>
     <CudaCompile>
@@ -137,6 +150,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -151,6 +165,9 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ConformanceMode Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ConformanceMode>
+      <OmitFramePointers Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OmitFramePointers>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>

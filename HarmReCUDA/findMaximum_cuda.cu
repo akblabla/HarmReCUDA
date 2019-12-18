@@ -9,15 +9,15 @@ void findMaximum_kernel(matrix a_d)
 		double largestValue = -1;
 		int largestIndex = 0;
 		for (int rowIndex = 0; rowIndex < a_d.rows; ++rowIndex) {
-			if (a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)]>largestValue) {
-				a_d.elements[MATRIX_INDEX(largestIndex, columnIndex, a_d.rows)] = 0;
+			if (a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)]>largestValue) {
+				a_d.elements[MATRIX_INDEX(largestIndex, columnIndex, a_d)] = 0;
 				largestIndex = rowIndex;
-				largestValue = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)];
-				a_d.elements[MATRIX_INDEX(largestIndex, columnIndex, a_d.rows)] = 1;
+				largestValue = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)];
+				a_d.elements[MATRIX_INDEX(largestIndex, columnIndex, a_d)] = 1;
 			}
 			else
 			{
-				a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)] = 0;
+				a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)] = 0;
 			}
 		}
 	}

@@ -11,9 +11,9 @@ void blackmanWindow_kernel(matrix a_d)
 	int columnIndex = i / a_d.rows;
 	int rowIndex = i % a_d.rows;
 	if (columnIndex < a_d.columns) {//make sure not to write outside of matrix, incase the number of elements did not have a base of 1024
-		double value = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)];
-		double window = (a0 - a1 * cos((2 * M_PI * columnIndex) / a_d.columns) + a2 * cos((4 * M_PI * columnIndex) / a_d.columns)) / a0;
-		a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d.rows)] = value * window;
+		double value = a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)];
+		double window = (a0 - a1 * cos((2.0 * M_PI * rowIndex) / (a_d.rows-1)) + a2 * cos((4.0 * M_PI * rowIndex) / (a_d.rows-1))) / a0;
+		a_d.elements[MATRIX_INDEX(rowIndex, columnIndex, a_d)] = value * window;
 	}
 }
 /**
