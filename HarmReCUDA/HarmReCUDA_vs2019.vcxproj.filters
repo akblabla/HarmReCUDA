@@ -58,6 +58,9 @@
     <Filter Include="C++Interface\Controller\GenerateProjectionMatrix\BlackmanWindow">
       <UniqueIdentifier>{ca1418a3-5953-4727-bfd5-56d31e4e69a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Interface\Controller\GenerateProjectionMatrix\AapproximatePseudoInversion">
+      <UniqueIdentifier>{1727c4a6-f9cd-457a-ad10-27a71d60777c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix_d.cpp">
@@ -100,8 +103,8 @@
     <ClCompile Include="moorePenroseInversion.cpp">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
     </ClCompile>
-    <ClCompile Include="temp.cpp">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
+    <ClCompile Include="approximatePseudoInversion.cpp">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\AapproximatePseudoInversion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,8 +240,8 @@
     <ClInclude Include="moorePenroseInversion.h">
       <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
     </ClInclude>
-    <ClInclude Include="temp.h">
-      <Filter>C++Interface\Controller\GenerateProjectionMatrix\LeastSquareProjectionMatrix</Filter>
+    <ClInclude Include="approximatePseudoInversion.h">
+      <Filter>C++Interface\Controller\GenerateProjectionMatrix\AapproximatePseudoInversion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

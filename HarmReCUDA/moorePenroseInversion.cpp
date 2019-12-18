@@ -25,21 +25,23 @@ void moorePenroseInversion_d(Matrix_d& designMatrix_d, Vector_d& harmonics_d, Ve
 	double** invCorrelationMatrixElementsList = new double* [batchSize];
 	double** invCorrelationMatrixElementsList_d;
 
+	cudaMalloc((void**)& subDesignMatricesElementsList_d, batchSize * sizeof(double*));
+	cudaMalloc((void**)& correlationMatrixElementsList_d, batchSize * sizeof(double*));
+	cudaMalloc((void**)& invCorrelationMatrixElementsList_d, batchSize * sizeof(double*));
 	for (int i = 0; i < batchSize; ++i){
 		subDesignMatricesList_d[i] = new Matrix_d(m, n,AMatrix::M_NO_INIT);
 		designMatrix_d.getSubMatrix(*(subDesignMatricesList_d[i]), 0, -1, n * i, n * (i + 1)-1);
 		subDesignMatricesElementsList[i] = (subDesignMatricesList_d[i])->getCMatrix().elements;
-		cudaMalloc((void**)& subDesignMatricesElementsList_d, batchSize * sizeof(double*));
+
 		cudaMemcpy(subDesignMatricesElementsList_d, subDesignMatricesElementsList, batchSize*sizeof(double*), cudaMemcpyHostToDevice);
 
 		correlationMatricesList_d[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
 		correlationMatrixElementsList[i] = (correlationMatricesList_d[i])->getCMatrix().elements;
-		cudaMalloc((void**)& correlationMatrixElementsList_d, batchSize * sizeof(double*));
+	
 		cudaMemcpy(correlationMatrixElementsList_d, correlationMatrixElementsList, batchSize * sizeof(double*), cudaMemcpyHostToDevice);
 
 		invCorrelationMatricesList_d[i] = new Matrix_d(n, n, AMatrix::M_ALLOCATE);
 		invCorrelationMatrixElementsList[i] = invCorrelationMatricesList_d[i]->getCMatrix().elements;
-		cudaMalloc((void**)& invCorrelationMatrixElementsList_d, batchSize * sizeof(double*));
 		cudaMemcpy(invCorrelationMatrixElementsList_d, invCorrelationMatrixElementsList, batchSize * sizeof(double*), cudaMemcpyHostToDevice);
 	}
 	stat = cublasDgemmBatched(handle,

@@ -9,6 +9,7 @@
 #include "findHighestEnergyFundamentals_d.hpp"
 #include "blackmanWindow_d.hpp"
 #include "moorePenroseInversion.h"
+#include "approximatePseudoInversion.h"
 
 #define GPU_MEMORY_SLACK 10000000
 extern "C" void elementWiseMultiplication_cuda(matrix dest_d, const matrix src_d, unsigned int rowFactor, unsigned int columnFactor);
@@ -90,18 +91,13 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 
 
 			generateDesignMatrix_d(designMatrix_d, fundamentalFrequenciesToBeSolved_d, time_d, harmonics_d);
-//			moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
-	#ifdef _DEBUG
-			printf("Projection Matrix\n");
-			designMatrix_d.print();
-			printf("\n");
-	#endif
-			//blackmanWindow_d(designMatrix_d);
+			//moorePenroseInversion_d(designMatrix_d, harmonics_d, fundamentalFrequenciesToBeSolved_d);
+			approximatePseudoInversion(designMatrix_d);
 
 			Matrix_d harmonicAmplitudesToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
 			harmonicAmplitudes_d.getSubMatrix(harmonicAmplitudesToBeSolved_d, 2* harmonics.getRows() * freqsSolved, 2* harmonics.getRows() * (freqsSolved + partitionFreqCount-1), 0, -1);
-			designMatrix_d.transpose();
-			harmonicAmplitudesToBeSolved_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 2.0 / time_d.getRows(), 0);
+			//designMatrix_d.transpose();
+			harmonicAmplitudesToBeSolved_d.GeneralMatrixToMatrixMultiply(designMatrix_d, data_d, 1, 0);
 			designMatrix_d.deallocate();
 			if (partitionCount > 1)
 			printf(".");
@@ -137,21 +133,21 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 	for (int stacksSolved = 0; stacksSolved < maxFundamentalFreq_d.getElementsCount(); stacksSolved+= partitionStackCount){
 		Vector_d maxFundamentalFreqToBeSolved_d(0, AMatrix::M_NO_INIT);
 		maxFundamentalFreq_d.getSubVector(maxFundamentalFreqToBeSolved_d, stacksSolved, stacksSolved+partitionStackCount-1);
-		Matrix_d newDesignMatrix_d(time_d.getElementsCount(), harmonics_d.getRows() * 2* maxFundamentalFreqToBeSolved_d.getElementsCount(), Matrix::M_ALLOCATE);
-		generateDesignMatrix_d(newDesignMatrix_d, maxFundamentalFreqToBeSolved_d, time_d, harmonics_d);
+		Matrix_d designMatrix_d(time_d.getElementsCount(), harmonics_d.getRows() * 2* maxFundamentalFreqToBeSolved_d.getElementsCount(), Matrix::M_ALLOCATE);
+		generateDesignMatrix_d(designMatrix_d, maxFundamentalFreqToBeSolved_d, time_d, harmonics_d);
 	#ifdef _DEBUG
 		printf("New projection matrix\n");
-		newDesignMatrix_d.print();
+		designMatrix_d.print();
 		printf("\n");
 	#endif
-		blackmanWindow_d(newDesignMatrix_d);
+		approximatePseudoInversion(designMatrix_d);
+		//moorePenroseInversion_d(designMatrix_d, harmonics_d, maxFundamentalFreqToBeSolved_d);
 		Matrix_d newHarmonicAmplitudes_d(harmonics_d.getRows() * 2 * maxFundamentalFreqToBeSolved_d.getElementsCount(), maxFundamentalFreqToBeSolved_d.getElementsCount(), Matrix::M_ALLOCATE);
 		
 
 		Matrix_d dataToBeSolved_d(0, 0, AMatrix::M_NO_INIT);
 		data_d.getSubMatrix(dataToBeSolved_d, 0, -1, stacksSolved, stacksSolved + partitionStackCount - 1);
-		newDesignMatrix_d.transpose();
-		newHarmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(newDesignMatrix_d, dataToBeSolved_d, 2.0 / time_d.getRows(), 0);
+		newHarmonicAmplitudes_d.GeneralMatrixToMatrixMultiply(designMatrix_d, dataToBeSolved_d, 1, 0);
 		Matrix ampFilter(maxFundamentalFreqToBeSolved_d.getElementsCount(), maxFundamentalFreqToBeSolved_d.getElementsCount(),AMatrix::M_ASSIGN);
 		for (int i = 0; i < ampFilter.getColumns(); ++i) {
 			ampFilter.setElement(1, i, i);
@@ -164,11 +160,11 @@ void harmReCUDA(Matrix& data, double minimumFundamentalFrequency, double maximum
 		newHarmonicAmplitudes_d.print(10, 5);
 		printf("\n");
 	#endif
-		newDesignMatrix_d.transpose();
-		generateDesignMatrix_d(newDesignMatrix_d, maxFundamentalFreqToBeSolved_d, time_d, harmonics_d);
+		designMatrix_d.transpose();
+		generateDesignMatrix_d(designMatrix_d, maxFundamentalFreqToBeSolved_d, time_d, harmonics_d);
 		
-		dataToBeSolved_d.GeneralMatrixToMatrixMultiply(newDesignMatrix_d, newHarmonicAmplitudes_d, -1, 1.0);
-		newDesignMatrix_d.deallocate();
+		dataToBeSolved_d.GeneralMatrixToMatrixMultiply(designMatrix_d, newHarmonicAmplitudes_d, -1, 1.0);
+		designMatrix_d.deallocate();
 		ampFilter_d.deallocate();
 		newHarmonicAmplitudes_d.deallocate();
 		if (partitionCount > 1)

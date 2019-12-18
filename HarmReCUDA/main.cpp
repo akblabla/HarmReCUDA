@@ -23,7 +23,6 @@
 #include "HarmReCUDA.hpp"
 #include "Matrix.hpp"
 #include "Vector.hpp"
-#include "temp.h"
 #include <exception>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -36,18 +35,16 @@
 
 int main() {
 
-
-	temp(0, 0);
-	const double fs = 31250;
-
-	Matrix data = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat","data");
-	Matrix harmonicsMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat","harmonics");
-	Matrix fMinMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fMin");
+	Matrix data = matLoad(".\\in.mat","data");
+	Matrix harmonicsMat = matLoad(".\\in.mat","harmonics");
+	Matrix fMinMat = matLoad(".\\in.mat", "fMin");
 	auto fMin = fMinMat.getElement(0, 0);
-	Matrix fMaxMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fMax");
+	Matrix fMaxMat = matLoad(".\\in.mat", "fMax");
 	auto fMax = fMaxMat.getElement(0, 0);
-	Matrix fResMat = matLoad("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\in.mat", "fRes");
+	Matrix fResMat = matLoad(".\\in.mat", "fRes");
 	int fRes = fResMat.getElement(0, 0);
+	Matrix fsMat = matLoad(".\\in.mat", "fs");
+	double fs = fsMat.getElement(0, 0);
 	auto start = std::chrono::high_resolution_clock::now();
 	//d.print();
 	Vector harmonics(harmonicsMat.getColumns());
@@ -67,8 +64,8 @@ int main() {
 	std::cout << "Harmonic removal execution time: " << elapsed.count() << " seconds" << std::endl;
 	Matrix time(1, 1, Matrix::M_ALLOCATE);
 	time.setElement(elapsed.count(), 0, 0);
-	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\out.mat", "data", data);
-	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\runtimePerformance.mat","elapsed", time);
+	matSave(".\\out.mat", "data", data);
+	matSave(".\\runtimePerformance.mat","elapsed", time);
 	data.deallocate();
 
 

@@ -5,6 +5,9 @@
 #include <iostream>
 #include "cublas_v2.h"
 #include "helper_cuda.h"
+Matrix_d::Matrix_d() : AMatrix(0, 0)
+{
+}
 Matrix_d::Matrix_d(int rows, int columns, matrixInitialisation initialisation) : AMatrix(rows,columns)
 {
 	switch (initialisation)
@@ -229,6 +232,43 @@ void Matrix_d::GeneralMatrixToMatrixAddition(const Matrix_d& A, const Matrix_d& 
 	}
 }
 
+void Matrix_d::multiplyWithScalar(double alpha)
+{
+	cublasStatus_t stat;
+	cublasHandle_t handle;
+	stat = cublasCreate(&handle);
+	cublasOperation_t transa = CUBLAS_OP_N;
+	cublasOperation_t transb = CUBLAS_OP_N;
+	int m, n;
+
+	double* A_ = getCMatrix().elements;
+	int lda = getLeadingDimension();
+
+	m = getRows();
+	n = getColumns();
+	if (isTransposed())
+	{
+		n = getRows();
+		m = getColumns();
+	}
+	double beta = 0;
+	stat = cublasDgeam(handle,
+		transa, transb,
+		m, n,
+		&alpha,
+		A_, lda,
+		&beta,
+		A_, lda,
+		A_, lda);
+	cublasDestroy(handle);
+
+	if (stat != CUBLAS_STATUS_SUCCESS) {
+		throw std::exception(_cudaGetErrorEnum(stat));
+		return;
+	}
+	
+}
+
 void Matrix_d::getSubMatrix(Matrix_d& dest, int rowsStart, int rowsEnd, int columnsStart, int columnsEnd) const
 {
 	//treat negative numbers as uncapped
@@ -276,3 +316,80 @@ Matrix_d::~Matrix_d()
 	deallocate();
 }
 
+void Matrix_d::GeneralMatrixToMatrixMultiplyBatched(const Matrix_d* A, const Matrix_d* B, const Matrix_d* C, double alpha, double beta, int batchSize)
+{
+	double** AList_d;
+	cudaMalloc((void**)& AList_d, batchSize * sizeof(double*));
+	double** BList_d;
+	cudaMalloc((void**)& BList_d, batchSize * sizeof(double*));
+	double** CList_d;
+	cudaMalloc((void**)& CList_d, batchSize * sizeof(double*));
+	for (int i = 0; i < batchSize; ++i) {
+		cudaMemcpy(&(AList_d[i]), A[i].getCMatrix().elements, sizeof(double*), cudaMemcpyHostToDevice);
+		cudaMemcpy(&(BList_d[i]), B[i].getCMatrix().elements, sizeof(double*), cudaMemcpyHostToDevice);
+		cudaMemcpy(&(CList_d[i]), C[i].getCMatrix().elements, sizeof(double*), cudaMemcpyHostToDevice);
+	}
+	cublasOperation_t transa;
+	cublasOperation_t transb;
+	int m = A[0].getRows();
+	int n = B[0].getColumns();
+	int k = B[0].getRows();
+	int k2;
+	int lda = A[0].getLeadingDimension();
+	int ldb = B[0].getLeadingDimension();
+	int ldc = C[0].getLeadingDimension();
+
+	transa = CUBLAS_OP_N;
+	transb = CUBLAS_OP_N;
+
+	k2 = A[0].getColumns();
+	switch (A[0].isTransposed())
+	{
+	case false:
+		transa = CUBLAS_OP_N;
+		break;
+	case true:
+		transa = CUBLAS_OP_T;
+		break;
+	default:
+		break;
+	}
+	switch (B[0].isTransposed())
+	{
+	case false:
+		transb = CUBLAS_OP_N;
+		break;
+	case true:
+		transb = CUBLAS_OP_T;
+		break;
+	default:
+		break;
+	}
+	//	lda = m;
+	//	ldb = k;
+
+	if (k != k2) {
+		throw std::exception("Matrix multiplication failed: Incompatible matrix dimensions");
+		return;
+	}
+
+	cublasHandle_t handle;
+	auto stat = cublasCreate(&handle);
+	if (stat != CUBLAS_STATUS_SUCCESS) {
+		throw std::exception(_cudaGetErrorEnum(stat));
+		return;
+	}
+	stat = cublasDgemmBatched(handle,
+		transa,
+		transb,
+		m, n, k,
+		&alpha,
+		(const double**)AList_d, A[0].getLeadingDimension(),
+		(const double**)BList_d, B[0].getLeadingDimension(),
+		&beta,
+		CList_d, C[0].getLeadingDimension(), batchSize);
+	if (stat != CUBLAS_STATUS_SUCCESS) {
+		throw std::exception(_cudaGetErrorEnum(stat));
+		return;
+	}
+}

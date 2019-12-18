@@ -34,7 +34,7 @@ void findHighestEnergyFundamentals_d(Vector_d& fundamentalFrequencies_d, const M
 	Matrix_d energies_d(harmonicEnergies_d.getRows()/ (2 * harmonicCount), harmonicEnergies_d.getColumns(), Matrix::matrixInitialisation::M_ALLOCATE);
 	partialMatrixSummation_cuda(energies_d.getCMatrix(), harmonicEnergies_d.getCMatrix(), (2 * (unsigned int) harmonicCount), 1);
 	Matrix energies(energies_d, AMatrix::M_ASSIGN);
-	matSave("D:\\Documents\\Bachelor\\Projects\\bin\\win64\\Release\\modelEnergy.mat", "modelEnergy", energies);
+	matSave(".\\modelEnergy.mat", "modelEnergy", energies);
 	#ifdef _DEBUG
 	printf("Energies\n");
 	energies_d.print(0,-1, 100, 110);
