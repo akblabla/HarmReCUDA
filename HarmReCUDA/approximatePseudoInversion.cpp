@@ -3,7 +3,6 @@
 
 void approximatePseudoInversion(Matrix_d& designMatrix_d)
 {
-	blackmanWindow_d(designMatrix_d);
-	designMatrix_d.multiplyWithScalar(2.0 / designMatrix_d.getRows());
+	//blackmanWindow_d(designMatrix_d);
 	designMatrix_d.transpose();
 }

@@ -6,7 +6,7 @@
 
 
 
-int diagnose(const char* file) {
+int diagnose(const std::string file) {
 	MATFile* pmat;
 	const char** dir;
 	const char* name;
@@ -19,7 +19,7 @@ int diagnose(const char* file) {
 	/*
 	 * Open file to get directory
 	 */
-	pmat = matOpen(file, "r");
+	pmat = matOpen(file.c_str(), "r");
 	if (pmat == NULL) {
 		printf("Error opening file %s\n", file);
 		return(1);
@@ -45,7 +45,7 @@ int diagnose(const char* file) {
 		printf("Error closing file %s\n", file);
 		return(1);
 	}
-	pmat = matOpen(file, "r");
+	pmat = matOpen(file.c_str(), "r");
 	if (pmat == NULL) {
 		printf("Error reopening file %s\n", file);
 		return(1);
@@ -74,7 +74,7 @@ int diagnose(const char* file) {
 		printf("Error closing file %s\n", file);
 		return(1);
 	}
-	pmat = matOpen(file, "r");
+	pmat = matOpen(file.c_str(), "r");
 	if (pmat == NULL) {
 		printf("Error reopening file %s\n", file);
 		return(1);
@@ -108,10 +108,10 @@ int diagnose(const char* file) {
 	return(0);
 }
 
-Matrix matLoad(const char* file, const char* symbol)
+Matrix matLoad(const std::string file, const char* symbol)
 {
 	// open MAT-file
-	MATFile* pmat = matOpen(file, "r");
+	MATFile* pmat = matOpen(file.c_str(), "r");
 	if (pmat == NULL) {
 		printf("no file has been found\n");
 		Matrix dest(10, 10, Matrix::M_ALLOCATE);
@@ -156,10 +156,10 @@ Matrix matLoad(const char* file, const char* symbol)
 	return dest;
 }
 
-void matSave(const char* file, const char* symbol, Matrix& source)
+void matSave(const std::string file, const char* symbol, Matrix& source)
 {
 	// open MAT-file
-	MATFile* pmat = matOpen(file, "wL");
+	MATFile* pmat = matOpen(file.c_str(), "wL");
 	if (pmat == NULL) {
 		printf("no file has been found\n");
 		return;

@@ -1,4 +1,5 @@
 #include "parabularSearch.hpp"
+#include "cublas_v2.h"
 #include <stdio.h>
 #include <iostream>
 #include "parabularSearchDefinitions.h"
@@ -36,7 +37,9 @@ void parabularSearch(Matrix_d& freqOut_d, const Matrix_d& energies_d, const Vect
 	printf("\n");
 #endif // DEBUG
 
-	parameters_d.GeneralMatrixToMatrixMultiply(inverseParabularDesign_d, energies_d, 1.0, 0.0);
+	cublasHandle_t handle;
+	cublasStatus_t stat = cublasCreate(&handle);
+	parameters_d.GeneralMatrixToMatrixMultiply(handle,inverseParabularDesign_d, energies_d, 1.0, 0.0);
 
 #ifdef _DEBUG
 	printf("frequency fit parameters\n");
@@ -63,6 +66,6 @@ void parabularSearch(Matrix_d& freqOut_d, const Matrix_d& energies_d, const Vect
 	printf("\n");
 #endif // DEBUG
 	slope_d.transpose();
-	freqOut_d.GeneralMatrixToMatrixAddition(freq_d, slope_d, 1.0, -0.5* deltaFundamentalFrequency);
+	freqOut_d.GeneralMatrixToMatrixAddition(handle, freq_d, slope_d, 1.0, -0.5* deltaFundamentalFrequency);
 
 }

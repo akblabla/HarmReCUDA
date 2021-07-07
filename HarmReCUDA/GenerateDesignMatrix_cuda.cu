@@ -21,14 +21,12 @@ void generateDesignMatrix_kernel(matrix dest_d, const matrix freq_d, const matri
 			&(dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex + 1, dest_d)]),
 			&(dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex, dest_d)])
 		);
-		//dest_d.elements[MATRIX_INDEX(rowIndex + 1, columnIndex, dest_d.rows)] *= renomalizeFactor;
-		//dest_d.elements[MATRIX_INDEX(rowIndex, columnIndex, dest_d.rows)] *= renomalizeFactor;
 	}
 }
 /**
-*creates a projection matrix on the gpu to the given matrix on the device.
+*creates a projection matrix on the gpu in the given matrix on the device.
 **/
 extern "C" void generateDesignMatrix_cuda(matrix dest_d, const matrix freq_d, const matrix time_d, const matrix harmonics_d){
 	int N = dest_d.rows* dest_d.columns/2; //each thread handles two elements of the matrix
-	generateDesignMatrix_kernel <<< (N+ 1023)/ 1024, 1024 >>>(dest_d, freq_d, time_d, harmonics_d);
+	generateDesignMatrix_kernel <<< (N+1023)/ 1024, 1024 >>>(dest_d, freq_d, time_d, harmonics_d);
 }

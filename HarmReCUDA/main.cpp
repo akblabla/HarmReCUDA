@@ -27,26 +27,41 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <Windows.h>
-
+#include <cuda_profiler_api.h>
 #include <chrono>  // for high_resolution_clock
+#include <conio.h>
 
 
 
 
-int main() {
+int main(int argc, char* argv[]) {
 
-	Matrix data = matLoad(".\\in.mat","data");
-	Matrix harmonicsMat = matLoad(".\\in.mat","harmonics");
-	Matrix fMinMat = matLoad(".\\in.mat", "fMin");
+	std::string path;
+	if (argc == 1) {
+		path.assign(".\\");
+	}
+	else if (argc == 2){
+		path.assign((argv[1]));
+		path.append("\\");
+	}
+	else
+	{
+		std::cout <<"Too many arguments" << std::endl;
+		return -1;
+	}
+	Matrix data = matLoad(path+"in.mat","data");
+	Matrix harmonicsMat = matLoad(path + "in.mat","harmonics");
+	Matrix fMinMat = matLoad(path + "in.mat", "fMin");
 	auto fMin = fMinMat.getElement(0, 0);
-	Matrix fMaxMat = matLoad(".\\in.mat", "fMax");
+	Matrix fMaxMat = matLoad(path + "in.mat", "fMax");
 	auto fMax = fMaxMat.getElement(0, 0);
-	Matrix fResMat = matLoad(".\\in.mat", "fRes");
+	Matrix fResMat = matLoad(path + "in.mat", "fRes");
 	int fRes = fResMat.getElement(0, 0);
-	Matrix fsMat = matLoad(".\\in.mat", "fs");
+	Matrix fsMat = matLoad(path + "in.mat", "fs");
 	double fs = fsMat.getElement(0, 0);
 	auto start = std::chrono::high_resolution_clock::now();
 	//d.print();
+	cudaProfilerStart();
 	Vector harmonics(harmonicsMat.getColumns());
 	harmonics.allocate();
 	for (int i = 0; i < harmonics.getRows(); ++i) {
@@ -58,19 +73,20 @@ int main() {
 	catch (std::exception e) {
 		printf("%s", e.what());
 	}
+	cudaProfilerStop();
 	// Record end time
 	auto finish = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapsed = finish - start;
 	std::cout << "Harmonic removal execution time: " << elapsed.count() << " seconds" << std::endl;
 	Matrix time(1, 1, Matrix::M_ALLOCATE);
 	time.setElement(elapsed.count(), 0, 0);
-	matSave(".\\out.mat", "data", data);
-	matSave(".\\runtimePerformance.mat","elapsed", time);
+	matSave(path + "out.mat", "data", data);
+	matSave(path + "runtimePerformance.mat","elapsed", time);
 	data.deallocate();
 
 
 
 	std::cout << std::endl;
-
-	return 1;
+	getch();
+	return 0;
 }

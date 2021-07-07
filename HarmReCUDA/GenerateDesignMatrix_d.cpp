@@ -10,4 +10,5 @@ void generateDesignMatrix_d(Matrix_d& destination, const Vector_d& fundamentalFr
 		return;
 	}
 	generateDesignMatrix_cuda(destination.getCMatrix(), fundamentalFrequencies.getCMatrix(),sampleTime.getCMatrix(), harmonics.getCMatrix());
+	destination.multiplyWithScalar(2.0 / destination.getRows());
 }
