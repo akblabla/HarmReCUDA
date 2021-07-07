@@ -9,3 +9,6 @@ fRes: an integer containing the amount of frequencies in the search grid.
 fs: a double containing the sample rate.
 harmonics: a row vector containing the harmonic indexes of the harmonics to be removed.
 
+The data with the harmonics removed are written to the file out.m at the specified path.
+
+Runtime metrics are written to the file runtimePerformance.mat.
